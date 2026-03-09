@@ -22,7 +22,7 @@ export default function HomePage() {
           {/* Logo 區：加入微光特效 */}
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_#f59e0b] animate-pulse" />
-            <span className="text-lg tracking-[0.4em] font-bold text-amber-50">娃娃</span>
+            <span className="text-lg tracking-[0.4em] font-bold text-amber-50">古箏樂手｜娃娃</span>
           </div>
 
           {/* 中間導覽選單 (桌機) */}

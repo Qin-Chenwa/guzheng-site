@@ -64,6 +64,34 @@ export default function HomePage() {
 
           </div>
         </div>
+        
+      </section>
+      {/* 1. 藝術理念區塊 (橫幅風格) */}
+      <section id="artistry" className="py-24 px-6 max-w-5xl mx-auto">
+        <h2 className="text-3xl tracking-[0.3em] mb-10 text-amber-100 text-center">藝術理念</h2>
+        <div className="w-full h-[400px] mb-8 border border-stone-800 shadow-2xl">
+          <img src={`${sitePath}/guzheng-banner.jpg`} className="w-full h-full object-cover" alt="藝術理念橫幅" />
+        </div>
+        <p className="text-stone-400 leading-loose text-lg text-center">
+          古箏之美，在於指尖與琴弦共鳴的瞬間。不僅是技術的傳承，更是心靈的修行。
+        </p>
+      </section>
+
+      {/* 2. 演奏歷程區塊 (直式風格) */}
+      <section id="journey" className="py-24 px-6 bg-stone-900/50">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-12 items-center">
+          <div className="w-full md:w-1/3 h-[500px] border border-stone-800">
+            <img src={`${sitePath}/guzheng-portrait.jpg`} className="w-full h-full object-cover" alt="直式肖像" />
+          </div>
+          <div className="w-full md:w-2/3 space-y-6">
+            <h2 className="text-3xl tracking-[0.3em] text-amber-100">演奏歷程</h2>
+            <p className="text-stone-400">從五歲習琴至今，深耕傳統與跨界演奏。</p>
+            <ul className="list-disc text-stone-500 pl-5 space-y-2">
+              <li>2020年：舉辦個人首場古箏音樂會</li>
+              <li>2022年：獲選為年度傑出演奏家</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       {/* 作品預留區 - 稍微淺一點的深色做區隔 */}
@@ -167,6 +195,7 @@ export default function HomePage() {
           &copy; {new Date().getFullYear()} 云謙有限公司. All Rights Reserved.
         </p>
       </footer>
+      
     </main>
   );
 }

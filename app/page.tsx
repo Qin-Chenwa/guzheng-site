@@ -5,7 +5,7 @@ export default function HomePage() {
   return (
     // 全站背景改為深石板色 (bg-stone-950)，文字改為淡米色 (text-stone-200)
     <main className="min-h-screen bg-stone-950 text-stone-200 font-serif relative overflow-hidden">
-      
+
       {/* 導覽列 - 透明背景，帶有細微的金色邊框 */}
       <nav className="relative z-10 p-6 flex justify-between items-center border-b border-amber-900/30">
         <div className="text-xl tracking-[0.4em] font-bold text-amber-50">古箏手｜娃娃</div>
@@ -18,7 +18,7 @@ export default function HomePage() {
 
       {/* 主視覺區域 (Hero Section) - 左右排版 */}
       <section className="relative z-10 max-w-7xl mx-auto px-6 py-16 md:py-28 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
-        
+
         {/* 左側：文字描述區 */}
         <div className="md:col-span-5 flex flex-col items-center md:items-start text-center md:text-left">
           <div className="inline-block px-4 py-1 border border-amber-700/50 text-amber-300 text-xs tracking-widest mb-6 rounded-full">
@@ -44,18 +44,18 @@ export default function HomePage() {
 
         {/* 右側：主視覺照片區 (重點調整特效) */}
         <div className="md:col-span-7 flex justify-center items-center relative group">
-          
+
           {/* 【特效 1】裝飾性底層光暈 - 滑鼠移入時會變亮 (group-hover:opacity-40) */}
           <div className="absolute -inset-4 bg-amber-900/10 rounded-full blur-3xl opacity-0 group-hover:opacity-40 transition-opacity duration-1000"></div>
-          
+
           {/* 照片容器 - 加上優雅的木質調邊框與深色陰影 */}
           <div className="relative z-10 w-full max-w-2xl aspect-[4/3] rounded-sm overflow-hidden border-2 border-stone-800 shadow-2xl shadow-black/80 transition-all duration-700 group-hover:border-amber-900/50 group-hover:shadow-amber-950/50">
-            
+
             {/* 【特效 2】圖片本身的縮放特效 (group-hover:scale-105) */}
             {/* 【圖片位置】請將照片放入 public/hero-guzheng.jpg，然後把 src 改為 "/hero-guzheng.jpg" */}
-            <img 
-              src={`${sitePath}/hero-guzheng.jpg`}            
-              alt="古箏演奏家主視覺" 
+            <img
+              src={`${sitePath}/hero-guzheng.jpg`}
+              alt="古箏演奏家主視覺"
               className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             />
 
@@ -64,13 +64,13 @@ export default function HomePage() {
 
           </div>
         </div>
-        
+
       </section>
       {/* 1. 藝術理念區塊 (橫幅風格) */}
       <section id="artistry" className="py-24 px-6 max-w-5xl mx-auto">
         <h2 className="text-3xl tracking-[0.3em] mb-10 text-amber-100 text-center">藝術理念</h2>
         <div className="w-full h-[400px] mb-8 border border-stone-800 shadow-2xl">
-          <img src={`${sitePath}/guzheng-banner.jpg`} className="w-full h-full object-cover" alt="藝術理念橫幅" />
+          <img src={`${sitePath}/guzheng-portrait.jpg`} className="w-full h-full object-cover" alt="藝術理念橫幅" />
         </div>
         <p className="text-stone-400 leading-loose text-lg text-center">
           古箏之美，在於指尖與琴弦共鳴的瞬間。不僅是技術的傳承，更是心靈的修行。
@@ -81,7 +81,7 @@ export default function HomePage() {
       <section id="journey" className="py-24 px-6 bg-stone-900/50">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-12 items-center">
           <div className="w-full md:w-1/3 h-[500px] border border-stone-800">
-            <img src={`${sitePath}/guzheng-portrait.jpg`} className="w-full h-full object-cover" alt="直式肖像" />
+            <img src={`${sitePath}/guzheng-banner.jpg`} className="w-full h-full object-cover" alt="直式肖像" />
           </div>
           <div className="w-full md:w-2/3 space-y-6">
             <h2 className="text-3xl tracking-[0.3em] text-amber-100">演奏歷程</h2>
@@ -110,7 +110,7 @@ export default function HomePage() {
       <section id="contact" className="relative z-10 py-24 bg-stone-950 px-6">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-            
+
             {/* 左側：公司資訊 */}
             <div className="flex flex-col justify-center">
               <h2 className="text-3xl tracking-[0.3em] mb-8 text-amber-100 font-light text-center md:text-left">聯絡邀約</h2>
@@ -118,8 +118,9 @@ export default function HomePage() {
                 無論是商業演出、婚禮雅集、或是古箏教學諮詢，<br />
                 歡迎透過以下方式與我聯繫。
               </p>
-              
+
               <div className="space-y-6">
+                {/* 公司名稱 */}
                 <div className="flex items-center space-x-4 justify-center md:justify-start">
                   <span className="w-10 h-10 rounded-full border border-amber-900/50 flex items-center justify-center text-amber-500">
                     🏢
@@ -130,6 +131,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
+                {/* 聯絡電話 */}
                 <div className="flex items-center space-x-4 justify-center md:justify-start">
                   <span className="w-10 h-10 rounded-full border border-amber-900/50 flex items-center justify-center text-amber-500">
                     📞
@@ -141,6 +143,30 @@ export default function HomePage() {
                     </a>
                   </div>
                 </div>
+
+                {/* Instagram */}
+                <div className="flex items-center space-x-4 justify-center md:justify-start">
+                  <span className="w-10 h-10 rounded-full border border-amber-900/50 flex items-center justify-center text-amber-500">
+                    📸
+                  </span>
+                  <div>
+                    <p className="text-xs text-stone-500 tracking-widest uppercase">Instagram</p>
+                    <a href="https://www.instagram.com/wa6018/" target="_blank" className="text-stone-200 text-lg hover:text-amber-400 transition">
+                      @wa6018
+                    </a>
+                  </div>
+                </div>
+
+                {/* Line ID */}
+                <div className="flex items-center space-x-4 justify-center md:justify-start">
+                  <span className="w-10 h-10 rounded-full border border-amber-900/50 flex items-center justify-center text-amber-500">
+                    💬
+                  </span>
+                  <div>
+                    <p className="text-xs text-stone-500 tracking-widest uppercase">Line ID</p>
+                    <p className="text-stone-200 text-lg">0933215606</p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -150,8 +176,8 @@ export default function HomePage() {
               <form action="https://formspree.io/f/你的ID" method="POST" className="space-y-5">
                 <div>
                   <label className="block text-xs tracking-widest text-stone-500 mb-2 uppercase">您的姓名</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     name="name"
                     required
                     className="w-full bg-stone-950 border border-stone-800 p-3 text-stone-200 focus:outline-none focus:border-amber-700 transition"
@@ -159,8 +185,8 @@ export default function HomePage() {
                 </div>
                 <div>
                   <label className="block text-xs tracking-widest text-stone-500 mb-2 uppercase">電子郵件</label>
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     name="email"
                     required
                     className="w-full bg-stone-950 border border-stone-800 p-3 text-stone-200 focus:outline-none focus:border-amber-700 transition"
@@ -168,7 +194,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <label className="block text-xs tracking-widest text-stone-500 mb-2 uppercase">需求說明</label>
-                  <textarea 
+                  <textarea
                     name="message"
                     rows={4}
                     required
@@ -176,7 +202,7 @@ export default function HomePage() {
                     placeholder="請簡述您的邀約內容..."
                   ></textarea>
                 </div>
-                <button 
+                <button
                   type="submit"
                   className="w-full py-4 bg-amber-800 text-amber-50 hover:bg-amber-700 transition tracking-[0.2em] text-sm mt-4"
                 >
@@ -184,7 +210,7 @@ export default function HomePage() {
                 </button>
               </form>
             </div>
-            
+
           </div>
         </div>
       </section>
@@ -195,7 +221,7 @@ export default function HomePage() {
           &copy; {new Date().getFullYear()} 云謙有限公司. All Rights Reserved.
         </p>
       </footer>
-      
+
     </main>
   );
 }

@@ -1,96 +1,17 @@
-"use client";
-import React, { useEffect, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+"use client"; // 使用動畫需要這行
+import React from 'react';
+import { motion } from 'framer-motion';
 
 const sitePath = "/guzheng-site";
 
 export default function HomePage() {
-  // 1. 建立影片的引用與偵測
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const heroRef = useRef(null);
-  const isHeroInView = useInView(heroRef, { amount: 0.5 }); // 當 Hero 顯示超過 50% 時
-
-  // 2. 當回到 Hero 區域時，重新播放影片
-  useEffect(() => {
-    if (isHeroInView && videoRef.current) {
-      videoRef.current.currentTime = 0; // 重頭開始
-      videoRef.current.play();
-    }
-  }, [isHeroInView]);
   return (
     <main className="min-h-screen bg-stone-950 text-stone-200 font-serif relative overflow-hidden">
 
-      {/* 主視覺區域 (Hero) */}
-      <section
-        ref={heroRef}
-        className="relative h-screen min-h-[700px] w-full flex items-center justify-center overflow-hidden"
-      >
-        {/* 【影片背景層】 */}
-        <div className="absolute inset-0 z-0">
-          <video
-            ref={videoRef}
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover"
-          >
-            <source src={`${sitePath}/hero-video.mp4`} type="video/mp4" />
-          </video>
+      {/* 背景裝飾光暈 - 增加流動感 */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-amber-900/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-stone-800/20 blur-[100px] rounded-full pointer-events-none" />
 
-          {/* 漸層遮罩層 */}
-          <div className="absolute inset-0 bg-gradient-to-b from-stone-950/40 via-transparent to-stone-950"></div>
-          <div className="absolute inset-0 bg-black/40"></div>
-        </div>
-
-        {/* 【內容層】 */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5 }}
-          className="relative z-10 text-center px-6"
-        >
-          <div className="inline-block px-6 py-2 border border-amber-500/30 text-amber-200 text-xs tracking-[0.6em] mb-8 rounded-full bg-black/40 backdrop-blur-md">
-            GUZHENG ARTIST
-          </div>
-          <h1 className="text-6xl md:text-9xl font-extralight tracking-[0.2em] text-white leading-tight mb-8 drop-shadow-2xl">
-            弦鳴<span className="font-semibold text-amber-300 italic">墨韻</span>
-          </h1>
-        </motion.div>
-
-        {/* 【更明顯的 SCROLL 提醒】 */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4"
-        >
-          <span className="text-amber-400 text-sm tracking-[0.4em] font-medium drop-shadow-md">SCROLL</span>
-
-          {/* 動態滾動條容器 */}
-          <div className="w-8 h-14 border-2 border-amber-500/50 rounded-full flex justify-center p-1 backdrop-blur-sm">
-            {/* 滾動的小球動畫 */}
-            <motion.div
-              animate={{
-                y: [0, 24, 0],
-                opacity: [1, 0.5, 1]
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="w-1.5 h-3 bg-amber-400 rounded-full"
-            />
-          </div>
-
-          {/* 向下的光影延伸線 */}
-          <motion.div
-            animate={{ height: [40, 80, 40] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-[2px] bg-gradient-to-b from-amber-400 to-transparent opacity-60"
-          />
-        </motion.div>
-      </section>
       {/* 導覽列 - 增加毛玻璃效果與圓角 */}
       <nav className="sticky top-4 z-50 mx-auto max-w-4xl mt-4 px-8 py-4 flex justify-between items-center bg-stone-900/60 backdrop-blur-md rounded-full border border-amber-900/20 shadow-lg">
         <div className="text-xl tracking-[0.4em] font-bold text-amber-50">古箏手｜娃娃</div>
@@ -152,14 +73,38 @@ export default function HomePage() {
           </div>
         </motion.div>
 
-        {/* 【下捲提醒指標】 */}
+        {/* 【更明顯的 SCROLL 提醒】 */}
         <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 text-amber-200/50 text-xs tracking-widest flex flex-col items-center gap-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2 }}
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4"
         >
-          <span>SCROLL</span>
-          <div className="w-px h-12 bg-gradient-to-b from-amber-500/50 to-transparent"></div>
+          <span className="text-amber-400 text-sm tracking-[0.4em] font-medium drop-shadow-md">SCROLL</span>
+
+          {/* 動態滾動條容器 */}
+          <div className="w-8 h-14 border-2 border-amber-500/50 rounded-full flex justify-center p-1 backdrop-blur-sm">
+            {/* 滾動的小球動畫 */}
+            <motion.div
+              animate={{
+                y: [0, 24, 0],
+                opacity: [1, 0.5, 1]
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="w-1.5 h-3 bg-amber-400 rounded-full"
+            />
+          </div>
+
+          {/* 向下的光影延伸線 */}
+          <motion.div
+            animate={{ height: [40, 80, 40] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="w-[2px] bg-gradient-to-b from-amber-400 to-transparent opacity-60"
+          />
         </motion.div>
       </section>
 

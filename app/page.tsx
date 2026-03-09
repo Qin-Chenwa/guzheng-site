@@ -1,12 +1,116 @@
-"use client"; // 使用動畫需要這行
-import React from 'react';
-import { motion } from 'framer-motion';
+"use client";
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 
 const sitePath = "/guzheng-site";
 
 export default function HomePage() {
+  const [isOpen, setIsOpen] = useState(false); // 控制手機選單開關
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const heroRef = useRef(null);
+  const isHeroInView = useInView(heroRef, { amount: 0.5 });
+
+  useEffect(() => {
+    if (isHeroInView && videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play();
+    }
+  }, [isHeroInView]);
+
+  const navLinks = [
+    { name: '藝術理念', id: 'artistry' },
+    { name: '演奏歷程', id: 'journey' },
+    { name: '精選作品', id: 'works' },
+    { name: '聯絡邀約', id: 'contact' },
+  ];
   return (
     <main className="w-full min-h-screen bg-stone-950 text-stone-200 font-serif relative overflow-hidden">
+      {/* --- 導覽列容器 --- */}
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[92%] max-w-5xl">
+        <div className="flex justify-between items-center px-6 py-3 rounded-full 
+                        bg-stone-950/40 backdrop-blur-xl 
+                        border border-amber-500/20 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_#f59e0b] animate-pulse" />
+            <span className="text-lg tracking-[0.4em] font-bold text-amber-50">娃娃</span>
+          </div>
+
+          {/* 桌機版選單 (md 以上顯示) */}
+          <div className="hidden md:flex items-center space-x-10">
+            {navLinks.map((link) => (
+              <a key={link.id} href={`#${link.id}`} className="text-xs tracking-[0.3em] text-stone-300 hover:text-amber-400 transition-colors uppercase group relative">
+                {link.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-amber-500 transition-all duration-300 group-hover:w-full" />
+              </a>
+            ))}
+          </div>
+
+          {/* 右側按鈕與漢堡按鈕 (手機版) */}
+          <div className="flex items-center gap-4">
+            <a href="#contact" className="hidden sm:block px-5 py-2 bg-amber-600/20 border border-amber-600/50 rounded-full text-xs text-amber-100 tracking-widest hover:bg-amber-600/40 transition-all">
+              預約演出
+            </a>
+
+            {/* 漢堡按鈕 (md 以下顯示) */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5 focus:outline-none"
+            >
+              <motion.span
+                animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+                className="w-6 h-0.5 bg-amber-200 rounded-full"
+              />
+              <motion.span
+                animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
+                className="w-6 h-0.5 bg-amber-200 rounded-full"
+              />
+              <motion.span
+                animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
+                className="w-6 h-0.5 bg-amber-200 rounded-full"
+              />
+            </button>
+          </div>
+        </div>
+      </nav>
+      {/* --- 手機版全螢幕選單 --- */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 z-[90] bg-stone-950/95 backdrop-blur-2xl flex flex-col items-center justify-center"
+          >
+            <div className="flex flex-col items-center gap-10">
+              {navLinks.map((link, i) => (
+                <motion.a
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  key={link.id}
+                  href={`#${link.id}`}
+                  onClick={() => setIsOpen(false)}
+                  className="text-2xl tracking-[0.5em] text-amber-50 hover:text-amber-400 transition-colors"
+                >
+                  {link.name}
+                </motion.a>
+              ))}
+              <motion.a
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                href="#contact"
+                onClick={() => setIsOpen(false)}
+                className="mt-6 px-10 py-3 bg-amber-800 text-white rounded-full tracking-widest"
+              >
+                立即預約
+              </motion.a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* 背景裝飾光暈 - 增加流動感 */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-amber-900/10 blur-[120px] rounded-full pointer-events-none" />

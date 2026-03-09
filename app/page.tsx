@@ -99,9 +99,10 @@ export default function HomePage() {
             <h2 className="text-4xl tracking-[0.4em] text-amber-100">演奏歷程</h2>
             <div className="space-y-6">
               {[
-                { year: "2020", event: "舉辦個人首場古箏音樂會《琴鳴》" },
-                { year: "2022", event: "獲選為年度傑出演奏家，跨界參與現代舞劇配樂" },
-                { year: "2024", event: "受邀至國際藝術節演出，推廣新民樂美學" }
+                { year: "2014", event: "隨台北市立國樂團於TICC國際會議廳演出【都會女聲】" },
+                { year: "2019", event: "特斯拉-MODEL3 新車發表，古箏xDJ跨界演出開幕秀" },
+                { year: "2024", event: "受邀當代劇團《暴風雨》北中南國家劇院巡演，古箏、古琴樂師" },
+                { year: "2025", event: "邀江蕙2025《無·有》小巨蛋演唱會，古箏樂手" }
               ].map((item, index) => (
                 <div key={index} className="flex gap-6 items-start group">
                   <span className="text-amber-600 font-bold mt-1 text-lg">{item.year}</span>

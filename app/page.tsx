@@ -210,34 +210,17 @@ export default function HomePage() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4"
+          className="absolute bottom-20 md:bottom-12 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 pointer-events-none"
         >
-          <span className="text-amber-400 text-sm tracking-[0.4em] font-medium drop-shadow-md">SCROLL</span>
+          <span className="text-amber-400 text-[10px] md:text-sm tracking-[0.4em] font-medium opacity-80">SCROLL</span>
 
-          {/* 動態滾動條容器 */}
-          <div className="w-8 h-14 border-2 border-amber-500/50 rounded-full flex justify-center p-1 backdrop-blur-sm">
-            {/* 滾動的小球動畫 */}
+          <div className="w-6 h-10 md:w-8 md:h-14 border border-amber-500/30 rounded-full flex justify-center p-1 backdrop-blur-sm">
             <motion.div
-              animate={{
-                y: [0, 24, 0],
-                opacity: [1, 0.5, 1]
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="w-1.5 h-3 bg-amber-400 rounded-full"
+              animate={{ y: [0, 15, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-1 h-2 bg-amber-400 rounded-full"
             />
           </div>
-
-          {/* 向下的光影延伸線 */}
-          <motion.div
-            animate={{ height: [40, 80, 40] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-[2px] bg-gradient-to-b from-amber-400 to-transparent opacity-60"
-          />
         </motion.div>
       </section>
 

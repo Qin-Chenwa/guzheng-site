@@ -236,24 +236,32 @@ export default function HomePage() {
       </section>
 
       {/* 1. 藝術理念區塊 - 橫幅圓角化 */}
-      <section id="artistry" className="py-32 px-6 max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl tracking-[0.4em] text-amber-100 mb-4">藝術理念</h2>
-          <div className="w-24 h-px bg-amber-800 mx-auto" />
-        </motion.div>
-        <div className="w-full h-[450px] mb-12 rounded-[3rem] overflow-hidden border border-stone-800 shadow-2xl relative group">
-          <img src={`${sitePath}/guzheng-portrait.jpg`} className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-700" alt="藝術理念" />
-          <div className="absolute inset-0 bg-stone-950/20" />
-        </div>
-        <p className="text-stone-300 leading-[2.2] text-xl text-center max-w-3xl mx-auto font-light">
-          古箏之美，在於指尖與琴弦共鳴的瞬間。<br />
-          不僅是技術的傳承，更是心靈的修行，讓每一聲震動都成為與空間的對話。
-        </p>
-      </section>
+      <motion.section
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        className="py-32 bg-stone-900/30"
+      >
+        <section id="artistry" className="py-32 px-6 max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl tracking-[0.4em] text-amber-100 mb-4">藝術理念</h2>
+            <div className="w-24 h-px bg-amber-800 mx-auto" />
+          </motion.div>
+          <div className="w-full h-[450px] mb-12 rounded-[3rem] overflow-hidden border border-stone-800 shadow-2xl relative group">
+            <img src={`${sitePath}/guzheng-portrait.jpg`} className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-700" alt="藝術理念" />
+            <div className="absolute inset-0 bg-stone-950/20" />
+          </div>
+          <p className="text-stone-300 leading-[2.2] text-xl text-center max-w-3xl mx-auto font-light">
+            古箏之美，在於指尖與琴弦共鳴的瞬間。<br />
+            不僅是技術的傳承，更是心靈的修行，讓每一聲震動都成為與空間的對話。
+          </p>
+        </section>
+      </motion.section>
 
       {/* 2. 演奏歷程區塊 - 左右不規則美感 */}
       <motion.section

@@ -17,16 +17,6 @@ export default function HomePage() {
     }
 
   }, [isHeroInView]);
-  useEffect(() => {
-    const handleInteraction = () => {
-      if (videoRef.current) {
-        videoRef.current.muted = false; // 取消靜音
-        document.removeEventListener('click', handleInteraction); // 只觸發一次
-      }
-    };
-    document.addEventListener('click', handleInteraction);
-    return () => document.removeEventListener('click', handleInteraction);
-  }, []);
 
   const navLinks = [
     { name: '藝術理念', id: 'artistry' },
@@ -45,7 +35,7 @@ export default function HomePage() {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_#f59e0b] animate-pulse" />
-            <span className="text-lg tracking-[0.4em] font-bold text-amber-50">娃娃</span>
+            <span className="text-lg tracking-[0.4em] font-bold text-amber-50">古箏樂手 | 娃娃</span>
           </div>
 
           {/* 桌機版選單 (md 以上顯示) */}

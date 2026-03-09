@@ -1,5 +1,5 @@
 import React from 'react';
-const prefix = process.env.NODE_ENV === 'production' ? '/你的專案名稱' : '';
+const sitePath = "/guzheng-site";
 
 export default function HomePage() {
   return (
@@ -54,7 +54,7 @@ export default function HomePage() {
             {/* 【特效 2】圖片本身的縮放特效 (group-hover:scale-105) */}
             {/* 【圖片位置】請將照片放入 public/hero-guzheng.jpg，然後把 src 改為 "/hero-guzheng.jpg" */}
             <img 
-              src={`${prefix}/hero-guzheng.jpg`}
+              src={`${sitePath}/hero-guzheng.jpg`}            
               alt="古箏演奏家主視覺" 
               className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             />

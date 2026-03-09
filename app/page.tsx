@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { Variants, motion, AnimatePresence, useInView } from 'framer-motion';
 
 const sitePath = "/guzheng-site";
 
@@ -9,6 +9,16 @@ export default function HomePage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef(null);
   const isHeroInView = useInView(heroRef, { amount: 0.5 });
+  // 定義一個通用動畫設定，讓捲動浮現效果統一
+  // 定義時加上 :Variants
+  const fadeInUp: Variants = {
+    hidden: { opacity: 0, y: 60 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" }
+    }
+  };
 
   useEffect(() => {
     if (isHeroInView && videoRef.current) {
@@ -246,30 +256,37 @@ export default function HomePage() {
       </section>
 
       {/* 2. 演奏歷程區塊 - 左右不規則美感 */}
-      <section id="journey" className="py-32 px-6 bg-stone-900/30 rounded-[4rem] mx-4">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-20 items-center">
-          <div className="w-full md:w-1/2 h-[600px] rounded-[3rem] overflow-hidden rotate-[-2deg] hover:rotate-0 transition-transform duration-700 shadow-2xl">
-            <img src={`${sitePath}/guzheng-banner.jpg`} className="w-full h-full object-cover" alt="演奏歷程" />
-          </div>
-          <div className="w-full md:w-1/2 space-y-8">
-            <h2 className="text-4xl tracking-[0.4em] text-amber-100">演奏歷程</h2>
-            <div className="space-y-6">
-              {[
-                { year: "2014", event: "隨台北市立國樂團於TICC國際會議廳演出【都會女聲】" },
-                { year: "2019", event: "特斯拉-MODEL3 新車發表，古箏xDJ跨界演出開幕秀" },
-                { year: "2024", event: "受邀當代劇團《暴風雨》北中南國家劇院巡演，古箏、古琴樂師" },
-                { year: "2025", event: "邀江蕙2025《無·有》小巨蛋演唱會，古箏樂手" }
-              ].map((item, index) => (
-                <div key={index} className="flex gap-6 items-start group">
-                  <span className="text-amber-600 font-bold mt-1 text-lg">{item.year}</span>
-                  <p className="text-stone-300 text-lg group-hover:text-amber-200 transition-colors">{item.event}</p>
-                </div>
-              ))}
+      <motion.section
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        className="py-32 bg-stone-900/30"
+      >
+        <section id="journey" className="py-32 px-6 bg-stone-900/30 rounded-[4rem] mx-4">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-20 items-center">
+            <div className="w-full md:w-1/2 h-[600px] rounded-[3rem] overflow-hidden rotate-[-2deg] hover:rotate-0 transition-transform duration-700 shadow-2xl">
+              <img src={`${sitePath}/guzheng-banner.jpg`} className="w-full h-full object-cover" alt="演奏歷程" />
+            </div>
+            <div className="w-full md:w-1/2 space-y-8">
+              <h2 className="text-4xl tracking-[0.4em] text-amber-100">演奏歷程</h2>
+              <div className="space-y-6">
+                {[
+                  { year: "2014", event: "隨台北市立國樂團於TICC國際會議廳演出【都會女聲】" },
+                  { year: "2019", event: "特斯拉-MODEL3 新車發表，古箏xDJ跨界演出開幕秀" },
+                  { year: "2024", event: "受邀當代劇團《暴風雨》北中南國家劇院巡演，古箏、古琴樂師" },
+                  { year: "2025", event: "邀江蕙2025《無·有》小巨蛋演唱會，古箏樂手" }
+                ].map((item, index) => (
+                  <div key={index} className="flex gap-6 items-start group">
+                    <span className="text-amber-600 font-bold mt-1 text-lg">{item.year}</span>
+                    <p className="text-stone-300 text-lg group-hover:text-amber-200 transition-colors">{item.event}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-
+        </section>
+      </motion.section>
       {/* 精選作品 - 影片卡片圓角化 */}
       <section id="works" className="py-32 px-6">
         <h2 className="text-center text-4xl tracking-[0.4em] mb-20 text-amber-100">精選作品</h2>

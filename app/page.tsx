@@ -15,7 +15,18 @@ export default function HomePage() {
       videoRef.current.currentTime = 0;
       videoRef.current.play();
     }
+
   }, [isHeroInView]);
+  useEffect(() => {
+    const handleInteraction = () => {
+      if (videoRef.current) {
+        videoRef.current.muted = false; // 取消靜音
+        document.removeEventListener('click', handleInteraction); // 只觸發一次
+      }
+    };
+    document.addEventListener('click', handleInteraction);
+    return () => document.removeEventListener('click', handleInteraction);
+  }, []);
 
   const navLinks = [
     { name: '藝術理念', id: 'artistry' },

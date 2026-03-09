@@ -5,8 +5,8 @@ const nextConfig = {
     unoptimized: true,
   },
   // 請加入下面這行，記得把 "你的專案名稱" 換成你在 GitHub 的 Repository 名稱
-  assetPrefix: process.env.NODE_ENV ===  '/guzheng-site',
-  basePath: process.env.NODE_ENV === '/guzheng-site/',
+    assetPrefix: '/guzheng-site/',
+  basePath: '/guzheng-site',
 };
 
 export default nextConfig;

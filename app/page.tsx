@@ -23,50 +23,65 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* 主視覺區域 (Hero) */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-20 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+      <section className="relative h-screen min-h-[700px] w-full flex items-center justify-center overflow-hidden">
+
+        {/* 【影片背景層】 */}
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src={`${sitePath}/hero-video.mp4`} type="video/mp4" />
+            您的瀏覽器不支援影片播放。
+          </video>
+
+          {/* 【漸層遮罩】 - 讓影片稍微變暗，確保文字清晰，並與背景色融合 */}
+          <div className="absolute inset-0 bg-gradient-to-b from-stone-950/60 via-stone-950/40 to-stone-950"></div>
+          <div className="absolute inset-0 bg-black/30"></div> {/* 額外加深層 */}
+        </div>
+
+        {/* 【文字內容層】 */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="md:col-span-5 flex flex-col items-center md:items-start text-center md:text-left"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="relative z-10 text-center px-6"
         >
-          <div className="inline-block px-4 py-1 border border-amber-700/50 text-amber-300 text-xs tracking-widest mb-6 rounded-full bg-amber-900/10">
+          <div className="inline-block px-6 py-2 border border-amber-500/30 text-amber-200 text-xs tracking-[0.5em] mb-8 rounded-full bg-black/20 backdrop-blur-sm">
             GUZHENG ARTIST
           </div>
-          <h1 className="text-5xl md:text-7xl font-extralight tracking-tight text-amber-50 leading-tight mb-8">
-            弦鳴<span className="font-semibold text-amber-200 italic">墨韻</span><br />
-            <span className="text-4xl md:text-5xl opacity-80">指尖清風</span>
+
+          <h1 className="text-6xl md:text-8xl font-extralight tracking-[0.2em] text-white leading-tight mb-8">
+            弦鳴<span className="font-semibold text-amber-200 italic">墨韻</span>
           </h1>
-          <p className="text-stone-400 max-w-md leading-relaxed mb-10 text-lg italic">
-            「融合傳統底蘊，聽見每一根琴弦訴說的故事。」
+
+          <p className="text-stone-300 max-w-2xl mx-auto leading-loose text-lg md:text-xl font-light tracking-widest mb-12">
+            指尖清風，聽見每一根琴弦訴說的故事
           </p>
-          <div className="flex flex-col sm:flex-row gap-6">
-            <a href="#works" className="px-10 py-3 bg-amber-800 hover:bg-amber-700 text-amber-50 transition rounded-full shadow-lg shadow-amber-900/20 tracking-widest">
+
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <a href="#works" className="px-12 py-4 bg-amber-800 hover:bg-amber-700 text-white transition-all rounded-full shadow-2xl shadow-amber-900/40 tracking-[0.3em] text-sm group">
               欣賞作品
+              <span className="inline-block ml-2 transition-transform group-hover:translate-x-1">→</span>
             </a>
-            <a href="#contact" className="px-10 py-3 border border-stone-700 hover:border-amber-500 transition rounded-full tracking-widest text-stone-300">
+            <a href="#contact" className="px-12 py-4 border border-white/20 hover:border-amber-500/50 hover:bg-white/5 text-white transition-all rounded-full tracking-[0.3em] text-sm backdrop-blur-sm">
               邀約洽談
             </a>
           </div>
         </motion.div>
 
-        {/* 右側：主視覺照片區 - 增加平滑的圓角 */}
-        <div className="md:col-span-7 flex justify-center items-center relative group">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-            className="relative z-10 w-full max-w-2xl aspect-[4/3] rounded-[2rem] overflow-hidden border border-stone-800 shadow-2xl transition-all duration-700 group-hover:shadow-amber-900/20"
-          >
-            <img
-              src={`${sitePath}/hero-guzheng.jpg`}
-              alt="主視覺"
-              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-stone-950/60 to-transparent opacity-60" />
-          </motion.div>
-        </div>
+        {/* 【下捲提醒指標】 */}
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 text-amber-200/50 text-xs tracking-widest flex flex-col items-center gap-2"
+        >
+          <span>SCROLL</span>
+          <div className="w-px h-12 bg-gradient-to-b from-amber-500/50 to-transparent"></div>
+        </motion.div>
       </section>
 
       {/* 1. 藝術理念區塊 - 橫幅圓角化 */}
@@ -144,7 +159,7 @@ export default function HomePage() {
                   { icon: "🏢", label: "公司名稱", value: "云謙有限公司" },
                   { icon: "📞", label: "聯絡電話", value: "0933-215-606", href: "tel:0933215606" },
                   { icon: "📸", label: "Instagram", value: "@wa6018", href: "https://www.instagram.com/wa6018/" },
-                  { icon: "💬", label: "Line ID", value: "0933215606" }
+                  { icon: "💬", label: "Line ID", value: "wa6018" }
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-center space-x-6">
                     <span className="w-12 h-12 rounded-2xl bg-stone-950 border border-amber-900/30 flex items-center justify-center text-xl shadow-inner">

@@ -6,20 +6,49 @@ const sitePath = "/guzheng-site";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-stone-950 text-stone-200 font-serif relative overflow-hidden">
+    <main className="w-full min-h-screen bg-stone-950 text-stone-200 font-serif relative overflow-hidden">
 
       {/* 背景裝飾光暈 - 增加流動感 */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-amber-900/10 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-stone-800/20 blur-[100px] rounded-full pointer-events-none" />
 
       {/* 導覽列 - 增加毛玻璃效果與圓角 */}
-      <nav className="sticky top-4 z-50 mx-auto max-w-4xl mt-4 px-8 py-4 flex justify-between items-center bg-stone-900/60 backdrop-blur-md rounded-full border border-amber-900/20 shadow-lg">
-        <div className="text-xl tracking-[0.4em] font-bold text-amber-50">古箏手｜娃娃</div>
-        <div className="hidden md:flex space-x-10 text-sm tracking-widest text-stone-300">
-          <a href="#artistry" className="hover:text-amber-400 transition">藝術理念</a>
-          <a href="#journey" className="hover:text-amber-400 transition">演奏歷程</a>
-          <a href="#works" className="hover:text-amber-400 transition">音樂作品</a>
-          <a href="#contact" className="hover:text-amber-400 transition">聯絡邀約</a>
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-5xl">
+        <div className="flex justify-between items-center px-6 py-3 rounded-full 
+                  bg-stone-950/40 backdrop-blur-xl 
+                  border border-amber-500/20 shadow-[0_8px_32px_rgba(0,0,0,0.5)]
+                  transition-all duration-500 hover:border-amber-500/40">
+
+          {/* Logo 區：加入微光特效 */}
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_#f59e0b] animate-pulse" />
+            <span className="text-lg tracking-[0.4em] font-bold text-amber-50">娃娃</span>
+          </div>
+
+          {/* 中間導覽選單 (桌機) */}
+          <div className="hidden md:flex items-center space-x-10">
+            {['artistry', 'journey', 'works', 'contact'].map((item) => (
+              <a
+                key={item}
+                href={`#${item}`}
+                className="text-xs tracking-[0.3em] text-stone-300 hover:text-amber-400 transition-colors duration-300 relative group uppercase"
+              >
+                {item === 'artistry' ? '藝術理念' : item === 'journey' ? '演奏歷程' : item === 'works' ? '精選作品' : '聯絡邀約'}
+                {/* 下底線動畫 */}
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-amber-500 transition-all duration-300 group-hover:w-full" />
+              </a>
+            ))}
+          </div>
+
+          {/* 右側：快速預約按鈕 (手機桌機皆見) */}
+          <a
+            href="#contact"
+            className="px-5 py-2 bg-amber-600/20 hover:bg-amber-600/40 border border-amber-600/50 
+                 rounded-full text-xs text-amber-100 tracking-widest transition-all duration-300 
+                 shadow-[0_0_15px_rgba(180,83,9,0.2)]"
+          >
+            預約演出
+          </a>
         </div>
       </nav>
 

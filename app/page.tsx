@@ -56,6 +56,12 @@ export default function HomePage() {
                 <span className="absolute -bottom-1 left-0 w-0 h-px bg-amber-500 transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
+            {/* 模擬書法斷筆的裝飾線 */}
+            <div className="mt-4 flex gap-1">
+              <div className="h-0.5 bg-amber-600/50 w-16"></div>
+              <div className="h-0.5 bg-amber-600/20 w-8"></div>
+              <div className="h-0.5 bg-amber-600/10 w-4"></div>
+            </div>
           </div>
 
           {/* 右側按鈕與漢堡按鈕 (手機版) */}

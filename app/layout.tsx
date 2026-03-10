@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Ma_Shan_Zheng } from "next/font/google";
+import { Geist, Geist_Mono, Ma_Shan_Zheng, Noto_Serif_TC } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -7,7 +7,7 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-
+const serif = Noto_Serif_TC({ weight: ['400', '700'], subsets: ['latin'], variable: '--font-serif' });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",

@@ -202,8 +202,13 @@ export default function HomePage() {
             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
             transition={{ duration: 2, ease: "easeOut" }}
           >
-            <h1 className="text-6xl md:text-9xl text-white tracking-[0.1em]">
-              弦鳴<span className="text-amber-300 ml-4">墨韻</span>
+            <h1 className="text-6xl md:text-9xl tracking-[0.1em] text-white leading-none mb-10 
+               drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]">
+              弦鳴
+              <span className="text-amber-300 italic ml-4 font-bold 
+                   drop-shadow-[0_0_15px_rgba(251,191,36,0.6)]">
+                墨韻
+              </span>
             </h1>
           </motion.div>
 

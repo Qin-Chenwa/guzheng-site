@@ -197,20 +197,22 @@ export default function HomePage() {
           <div className="inline-block px-6 py-2 border border-amber-500/30 text-amber-200 text-xs tracking-[0.5em] mb-8 rounded-full bg-black/20 backdrop-blur-sm">
             GUZHENG ARTIST
           </div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
-            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-            transition={{ duration: 2, ease: "easeOut" }}
-          >
-            <h1 className="text-6xl md:text-9xl tracking-[0.1em] text-white leading-none mb-10 
-               drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]">
+          <div className="relative inline-block">
+            {/* 這是偽墨痕背景 */}
+            <div className="absolute -inset-10 bg-black/20 blur-3xl rounded-full"></div>
+
+            <h1 className="text-7xl md:text-[10rem] font-bold tracking-tighter leading-none mb-10
+               text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-400
+               drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] 
+               transform skew-x-[-10deg]">
               弦鳴
-              <span className="text-amber-300 italic ml-4 font-bold 
-                   drop-shadow-[0_0_15px_rgba(251,191,36,0.6)]">
+              <span className="text-amber-300 italic ml-6 font-extrabold 
+                   drop-shadow-[0_0_25px_rgba(251,191,36,0.8)]
+                   hover:skew-x-[20deg] transition-transform duration-500">
                 墨韻
               </span>
             </h1>
-          </motion.div>
+          </div>
 
           <p className="text-stone-300 max-w-2xl mx-auto leading-loose text-lg md:text-xl font-light tracking-widest mb-12">
             指尖清風，聽見每一根琴弦訴說的故事

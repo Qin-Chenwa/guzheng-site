@@ -137,25 +137,70 @@ export default function HomePage() {
       </motion.section>
 
       {/* 5. 演奏歷程 - 樂譜感設計 */}
-      <section id="journey" className="py-40 px-6 bg-stone-900/10">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="font-calligraphy text-4xl text-amber-100 italic">演奏歷程</h2>
-            <div className="h-px w-20 bg-amber-900/50 mx-auto mt-6" />
-          </div>
-          <div className="space-y-12 border-l border-white/5 pl-8 md:pl-20 relative">
-            {[
-              { year: "2014", event: "台北市立國樂團 TICC 國際會議廳演出" },
-              { year: "2019", event: "TESLA MODEL 3 新車發表會跨界演出" },
-              { year: "2024", event: "當代劇團《暴風雨》國家劇院巡演樂師" },
-              { year: "2025", event: "江蕙《無·有》小巨蛋演唱會古箏演奏" }
-            ].map((item, idx) => (
-              <motion.div key={idx} variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="relative group">
-                <div className="absolute -left-[37px] md:-left-[85px] top-2 w-3 h-3 rotate-45 border border-amber-500/50 bg-stone-950 group-hover:bg-amber-500 transition-colors" />
-                <span className="text-amber-600/80 font-bold text-sm tracking-widest">{item.year}</span>
-                <p className="text-stone-300 text-lg mt-2 font-light group-hover:text-amber-100 transition-colors">{item.event}</p>
-              </motion.div>
-            ))}
+      {/* 5. 演奏歷程 - 左右圖文對照設計 */}
+      <section id="journey" className="py-40 px-6 bg-stone-900/10 relative overflow-hidden">
+        {/* 背景背景裝飾細線 */}
+        <div className="absolute top-0 right-[10%] w-px h-full bg-white/[0.03] z-0" />
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
+
+            {/* 左側：文字歷程 */}
+            <div className="order-2 md:order-1">
+              <div className="mb-12">
+                <h2 className="font-calligraphy text-4xl text-amber-100 italic">演奏歷程</h2>
+                <LineDecorator />
+              </div>
+
+              <div className="space-y-10 border-l border-white/5 pl-8 relative">
+                {[
+                  { year: "2014", event: "台北市立國樂團 TICC 國際會議廳演出" },
+                  { year: "2019", event: "TESLA MODEL 3 新車發表會跨界演出" },
+                  { year: "2024", event: "當代劇團《暴風雨》國家劇院巡演樂師" },
+                  { year: "2025", event: "江蕙《無·有》小巨蛋演唱會古箏演奏" }
+                ].map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    variants={fadeInUp}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    className="relative group"
+                  >
+                    {/* 節點裝飾線條 */}
+                    <div className="absolute -left-[37px] top-2 w-3 h-3 rotate-45 border border-amber-500/50 bg-stone-950 group-hover:bg-amber-500 transition-colors shadow-[0_0_8px_rgba(245,158,11,0.3)]" />
+                    <span className="text-amber-600/80 font-bold text-sm tracking-[0.2em]">{item.year}</span>
+                    <p className="text-stone-300 text-lg mt-2 font-light group-hover:text-amber-100 transition-colors leading-relaxed">
+                      {item.event}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* 右側：歷程圖片 (新增部分) */}
+            <div className="order-1 md:order-2 relative group">
+              {/* 設計感邊框線條：裝飾用的外框 */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 border-t border-r border-amber-600/30 rounded-tr-[2rem] transition-transform group-hover:translate-x-2 group-hover:-translate-y-2" />
+              <div className="absolute -bottom-4 -left-4 w-24 h-24 border-b border-l border-amber-600/30 rounded-bl-[2rem] transition-transform group-hover:-translate-x-2 group-hover:translate-y-2" />
+
+              {/* 圖片容器 */}
+              <div className="relative h-[500px] md:h-[600px] rounded-[2rem] overflow-hidden shadow-2xl border border-white/5 bg-stone-900">
+                <img
+                  src={`${sitePath}/guzheng-banner.jpg`}
+                  className="w-full h-full object-cover grayscale-[40%] group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
+                  alt="演奏歷程記錄"
+                />
+                {/* 圖片上的微弱漸層遮罩 */}
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/40 to-transparent opacity-60" />
+              </div>
+
+              {/* 圖片下方的裝飾細文字 */}
+              <div className="absolute -bottom-12 right-0 font-calligraphy text-amber-600/40 text-sm tracking-widest italic">
+                Moments of Performance
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

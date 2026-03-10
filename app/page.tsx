@@ -201,16 +201,8 @@ export default function HomePage() {
             {/* 這是偽墨痕背景 */}
             <div className="absolute -inset-10 bg-black/20 blur-3xl rounded-full"></div>
 
-            <h1 className="text-7xl md:text-[10rem] font-bold tracking-tighter leading-none mb-10
-               text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-400
-               drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] 
-               transform skew-x-[-10deg]">
-              弦鳴
-              <span className="text-amber-300 italic ml-6 font-extrabold 
-                   drop-shadow-[0_0_25px_rgba(251,191,36,0.8)]
-                   hover:skew-x-[20deg] transition-transform duration-500">
-                墨韻
-              </span>
+            <h1 className="calligraphy-ink text-4xl md:text-6xl text-white mb-10">
+              弦鳴<span className="text-amber-300 italic ml-4">墨韻</span>
             </h1>
           </div>
 

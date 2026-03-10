@@ -197,16 +197,15 @@ export default function HomePage() {
           <div className="inline-block px-6 py-2 border border-amber-500/30 text-amber-200 text-xs tracking-[0.5em] mb-8 rounded-full bg-black/20 backdrop-blur-sm">
             GUZHENG ARTIST
           </div>
-
-          <h1 className="text-6xl md:text-9xl font-extralight tracking-[0.2em] text-white leading-tight mb-8">
-            <span className="opacity-90">弦鳴</span>
-            <span className="text-amber-300 italic font-semibold ml-4"
-              style={{
-                filter: 'drop-shadow(0 0 10px rgba(251, 191, 36, 0.4))'
-              }}>
-              墨韻
-            </span>
-          </h1>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            transition={{ duration: 2, ease: "easeOut" }}
+          >
+            <h1 className="text-6xl md:text-9xl text-white tracking-[0.1em]">
+              弦鳴<span className="text-amber-300 ml-4">墨韻</span>
+            </h1>
+          </motion.div>
 
           <p className="text-stone-300 max-w-2xl mx-auto leading-loose text-lg md:text-xl font-light tracking-widest mb-12">
             指尖清風，聽見每一根琴弦訴說的故事

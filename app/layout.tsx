@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Zhi_Mang_Xing } from "next/font/google";
+import { Geist, Geist_Mono, Ma_Shan_Zheng } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -7,12 +7,7 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-// 載入書法字體
-const calligraphy = Zhi_Mang_Xing({
-  weight: '400',
-  subsets: ['latin'],
-  display: 'swap',
-});
+
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -26,6 +21,11 @@ export const metadata = {
     icon: "/guzheng-site/favicon.jpg", // 這裡可以更換分頁的小圖標
   },
 };
+const calligraphy = Ma_Shan_Zheng({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export default function RootLayout({
   children,

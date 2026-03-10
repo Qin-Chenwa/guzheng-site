@@ -198,8 +198,14 @@ export default function HomePage() {
             GUZHENG ARTIST
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-extralight tracking-[0.2em] text-white leading-tight mb-8">
-            弦鳴<span className="font-semibold text-amber-200 italic">墨韻</span>
+          <h1 className="text-6xl md:text-9xl font-extralight tracking-[0.2em] text-white leading-tight mb-8">
+            <span className="opacity-90">弦鳴</span>
+            <span className="text-amber-300 italic font-semibold ml-4"
+              style={{
+                filter: 'drop-shadow(0 0 10px rgba(251, 191, 36, 0.4))'
+              }}>
+              墨韻
+            </span>
           </h1>
 
           <p className="text-stone-300 max-w-2xl mx-auto leading-loose text-lg md:text-xl font-light tracking-widest mb-12">

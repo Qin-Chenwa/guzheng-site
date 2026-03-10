@@ -104,17 +104,33 @@ export default function HomePage() {
             THE ART OF GUZHENG
           </div>
 
-          <div className="relative mb-12">
-            {/* 貫穿標題的垂直線條 */}
-            <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-px h-12 bg-gradient-to-b from-transparent to-amber-500" />
 
-            <h1 className="font-calligraphy text-7xl md:text-[10rem] text-white italic tracking-tighter skew-x-[-8deg] drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
-              弦鳴<span className="text-amber-400 ml-6 relative">墨韻
-                <span className="absolute -bottom-4 left-0 w-full h-[3px] bg-gradient-to-r from-amber-500 via-amber-200 to-transparent" />
+          {/* 貫穿標題的垂直線條 */}
+          <div className="relative mb-12 py-8">
+            {/* 貫穿標題的藝術裝飾線：加長並增加發光感 */}
+            <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[1px] h-24 bg-gradient-to-b from-transparent via-amber-400 to-transparent opacity-60" />
+
+            <h1 className="font-calligraphy text-5xl md:text-8xl text-white italic tracking-[0.1em] skew-x-[-10deg] relative z-10">
+              {/* 「弦鳴」：增加一點透明度層次，讓視覺重心在墨韻 */}
+              <span className="opacity-90 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                弦鳴
+              </span>
+
+              {/* 「墨韻」：核心草寫風格，增加金色描邊與流動線條 */}
+              <span className="text-amber-400 ml-6 relative inline-block group">
+                墨韻
+
+                {/* 底部裝飾：模擬書法收筆的「飛白」線條 */}
+                <span className="absolute -bottom-2 left-0 w-full h-[2px] bg-gradient-to-r from-amber-500 via-amber-200 to-transparent shadow-[0_0_8px_#f59e0b]" />
+
+                {/* 額外的動態線條：增加精緻度 */}
+                <div className="absolute -right-8 top-1/2 w-12 h-[1px] bg-gradient-to-r from-amber-400/50 to-transparent rotate-[-45deg]" />
               </span>
             </h1>
-          </div>
 
+            {/* 標題下方的副標線條 */}
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          </div>
           <p className="text-stone-200 text-lg md:text-2xl tracking-[0.5em] font-light mb-16 opacity-90">
             指尖清風 · 弦音故事
           </p>

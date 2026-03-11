@@ -87,44 +87,94 @@ export default function HomePage() {
 
       {/* 3. Hero Section */}
       <section ref={heroRef} className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        {/* 【影片背景與遮罩】 */}
         <div className="absolute inset-0 z-0">
           <video ref={videoRef} autoPlay loop muted playsInline className="w-full h-full object-cover opacity-70 scale-105">
             <source src={`${sitePath}/hero-video.mp4`} type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-stone-950/40" />
+          <div className="absolute inset-0 bg-stone-950/30" />
         </div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5 }} className="relative z-10 text-center px-6">
-          <div className="inline-block px-6 py-1.5 border-2 border-amber-500/40 text-amber-400 text-[11px] tracking-[0.8em] mb-16 rounded-full bg-stone-950/50 backdrop-blur-md">
-            THE ART OF GUZHENG
+        {/* 【前景線條與內容】 */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.8, ease: "easeOut" }}
+          className="relative z-10 text-center px-6"
+        >
+          {/* 大膽的幾何線條框架 */}
+          <div className="absolute -inset-10 border-t border-r border-amber-600/30 rounded-tr-[5rem] pointer-events-none opacity-60" />
+          <div className="absolute -inset-10 border-b border-l border-amber-600/30 rounded-bl-[5rem] pointer-events-none opacity-60" />
+
+          {/* 藝術性細線標籤 */}
+          <div className="inline-block relative mb-16">
+            <div className="absolute left-1/2 -translate-x-1/2 -top-10 w-px h-10 bg-amber-500/50" />
+            <div className="px-6 py-2 border-2 border-amber-500/50 text-amber-300 text-[11px] tracking-[0.8em] rounded-full backdrop-blur-sm shadow-[0_0_20px_rgba(245,158,11,0.2)]">
+              THE ART OF GUZHENG
+            </div>
+            <div className="absolute left-1/2 -translate-x-1/2 -bottom-10 w-px h-10 bg-amber-500/50" />
           </div>
 
-          <div className="relative mb-12 py-8">
-            <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[1px] h-24 bg-gradient-to-b from-transparent via-amber-400 to-transparent opacity-60" />
+          {/* 【貫穿標題的垂直光線】 */}
+          <div className="relative mb-14 py-6">
+            {/* 貫穿標題的藝術裝飾線：加長並增加發光感 */}
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[1.5px] h-32 bg-gradient-to-b from-transparent via-amber-400 to-transparent shadow-[0_0_15px_#f59e0b]" />
 
-            <h1 className="font-calligraphy text-5xl md:text-8xl text-white italic tracking-[0.1em] skew-x-[-10deg] relative z-10">
-              <span className="opacity-90 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">弦鳴</span>
+            <h1 className="font-calligraphy text-6xl md:text-9xl text-white italic tracking-[0.1em] skew-x-[-12deg] relative z-10">
+              {/* 「弦鳴」：增加一點透明度層次，讓視覺重心在墨韻 */}
+              <span className="opacity-90 drop-shadow-[0_5px_15px_rgba(255,255,255,0.4)]">
+                弦鳴
+              </span>
+
+              {/* 「墨韻」：核心草寫風格，增加金色描邊與流動線條 */}
               <span className="text-amber-400 ml-6 relative inline-block group">
                 墨韻
-                <span className="absolute -bottom-2 left-0 w-full h-[2px] bg-gradient-to-r from-amber-500 via-amber-200 to-transparent shadow-[0_0_8px_#f59e0b]" />
-                <div className="absolute -right-8 top-1/2 w-12 h-[1px] bg-gradient-to-r from-amber-400/50 to-transparent rotate-[-45deg]" />
+
+                {/* 底部裝飾：模擬書法收筆的「飛白」線條 */}
+                <span className="absolute -bottom-4 left-0 w-full h-[3px] bg-gradient-to-r from-amber-500 via-amber-200 to-transparent shadow-[0_0_12px_#f59e0b]" />
+
+                {/* 額外的動態線條：增加精緻度 */}
+                <div className="absolute -right-10 top-1/2 w-16 h-[1px] bg-gradient-to-r from-amber-400/80 to-transparent rotate-[-45deg] opacity-70" />
+                <div className="absolute -left-10 bottom-1/2 w-16 h-[1px] bg-gradient-to-l from-amber-400/80 to-transparent rotate-[-45deg] opacity-70" />
               </span>
             </h1>
 
-            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            {/* 標題下方的副標線條 */}
+            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-48 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
           </div>
 
-          <p className="text-stone-200 text-lg md:text-2xl tracking-[0.5em] font-light mb-16 opacity-90">
+          {/* 字體調整：更大、更清晰 */}
+          <p className="text-stone-100 text-xl md:text-3xl tracking-[0.6em] font-light mb-20 opacity-95">
             指尖清風 · 弦音故事
           </p>
 
-          <div className="flex gap-12 justify-center items-center">
-            <a href="#works" className="group text-xs tracking-[0.5em] text-white border-b-2 border-amber-500/50 pb-3 hover:text-amber-400 transition-all flex items-center gap-4">
-              欣賞作品 <span className="text-xl">→</span>
+          {/* 按鈕設計：更強烈線條與明亮度 */}
+          <div className="flex gap-16 justify-center items-center">
+            <a href="#works" className="group text-sm tracking-[0.6em] text-white border-b-2 border-amber-500 pb-4 hover:text-amber-300 hover:border-amber-300 transition-all flex items-center gap-5">
+              欣賞作品 <span className="text-3xl transition-transform group-hover:translate-x-1">→</span>
             </a>
-            <a href="#contact" className="group text-xs tracking-[0.5em] text-white border-b-2 border-white/20 pb-3 hover:border-amber-500 transition-all flex items-center gap-4">
-              邀約洽談 <span className="text-xl">↘</span>
+            <a href="#contact" className="group text-sm tracking-[0.6em] text-white border-b-2 border-white/20 pb-4 hover:border-amber-500 transition-all flex items-center gap-5">
+              邀約洽談 <span className="text-3xl transition-transform group-hover:translate-y-1">↘</span>
             </a>
+          </div>
+        </motion.div>
+
+        {/* 【更明顯的 SCROLL 提醒】 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 1 }}
+          className="absolute bottom-24 md:bottom-16 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-4 pointer-events-none"
+        >
+          <span className="text-amber-400 text-xs md:text-base tracking-[0.6em] font-medium opacity-90">SCROLL</span>
+
+          <div className="w-8 h-12 md:w-10 md:h-16 border-2 border-amber-500/40 rounded-full flex justify-center p-1.5 backdrop-blur-sm shadow-[0_0_15px_rgba(245,158,11,0.2)]">
+            <motion.div
+              animate={{ y: [0, 20, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              className="w-1.5 h-3 bg-amber-400 rounded-full"
+            />
           </div>
         </motion.div>
       </section>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Ma_Shan_Zheng, Noto_Serif_TC } from "next/font/google";
+import { Geist, Geist_Mono, Long_Cang, Noto_Serif_TC } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -7,11 +7,24 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const serif = Noto_Serif_TC({ weight: ['400', '700'], subsets: ['latin'], variable: '--font-serif' });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+// 引入狂草風格的 Long Cang
+const calligraphy = Long_Cang({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-calligraphy',
+  display: 'swap',
+});
+
+const serif = Noto_Serif_TC({
+  weight: ['300', '400', '700'],
+  subsets: ['latin'],
+  variable: '--font-serif',
+  display: 'swap',
 });
 
 export const metadata = {
@@ -21,11 +34,7 @@ export const metadata = {
     icon: "/guzheng-site/favicon.jpg", // 這裡可以更換分頁的小圖標
   },
 };
-const calligraphy = Ma_Shan_Zheng({
-  weight: '400',
-  subsets: ['latin'],
-  display: 'swap',
-});
+
 
 export default function RootLayout({
   children,

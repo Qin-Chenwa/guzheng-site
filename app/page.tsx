@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useSyncExternalStore } from 'react';
 import { Variants, motion, AnimatePresence, useInView, useScroll, useSpring } from 'framer-motion';
 
 const sitePath = "/guzheng-site";
@@ -87,13 +87,19 @@ const stagger: Variants = {
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
-// ─── 工具：偵測觸控裝置 ───────────────────────────────────────────────────────
 function useIsTouchDevice() {
-  const [isTouch, setIsTouch] = useState(false);
-  useEffect(() => {
-    setIsTouch(window.matchMedia('(pointer: coarse)').matches);
-  }, []);
-  return isTouch;
+  return useSyncExternalStore(
+    // 1. 訂閱函式：告訴 React 怎麼監聽變化
+    (callback) => {
+      const mediaQuery = window.matchMedia('(pointer: coarse)');
+      mediaQuery.addEventListener('change', callback);
+      return () => mediaQuery.removeEventListener('change', callback);
+    },
+    // 2. Client 端取得值的方法
+    () => window.matchMedia('(pointer: coarse)').matches,
+    // 3. Server 端預設值 (Next.js SSR 必填)
+    () => false
+  );
 }
 
 // ─── 子元件 ───────────────────────────────────────────────────────────────────
@@ -398,7 +404,7 @@ export default function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35, duration: 0.7 }}
                 className={`${calligraphy} text-5xl text-white`}>
-                娃娃古箏
+                楊云慈 Catherine Yang
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0 }}
@@ -453,7 +459,7 @@ export default function HomePage() {
             <a href="#" className="flex items-center gap-2.5 group" aria-label="回到頂部">
               <div className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_10px_#fbbf24]
                               group-hover:scale-125 transition-transform" />
-              <span className={`${calligraphy} text-base sm:text-lg tracking-widest`}>娃娃古箏</span>
+              <span className={`${calligraphy} text-base sm:text-lg tracking-widest`}>楊云慈 Catherine Yang</span>
             </a>
 
             <div className="hidden lg:flex items-center gap-10">
@@ -1007,7 +1013,7 @@ export default function HomePage() {
 
         {/* ── 頁尾 ─────────────────────────────────────────────────────────── */}
         <footer className={`py-16 sm:py-20 text-center border-t ${isDark ? 'border-white/[0.05]' : 'border-stone-200'}`}>
-          <h3 className={`${calligraphy} text-2xl sm:text-3xl text-amber-500/60 mb-6`}>娃娃古箏工作室</h3>
+          <h3 className={`${calligraphy} text-2xl sm:text-3xl text-amber-500/60 mb-6`}>楊云慈 Catherine Yang工作室</h3>
           <div className="flex justify-center mb-6">
             <div className="h-px w-16 bg-amber-900/40" />
           </div>
@@ -1076,7 +1082,7 @@ export default function HomePage() {
                   {isDark ? '☀ 切換亮色' : '☾ 切換暗色'}
                 </button>
                 <div className="h-px w-12 bg-amber-500/50" />
-                <p className="text-stone-600 text-[9px] tracking-[0.4em] font-serif uppercase">娃娃古箏工作室</p>
+                <p className="text-stone-600 text-[9px] tracking-[0.4em] font-serif uppercase">楊云慈 Catherine Yang工作室</p>
               </motion.div>
             </motion.div>
           )}

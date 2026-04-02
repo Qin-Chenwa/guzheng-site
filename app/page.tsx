@@ -484,8 +484,16 @@ export default function HomePage() {
                 <span className="opacity-80">楊云慈</span>
 
                 {/* 英文切換為草寫感 (使用 italic 與 serif 模擬) */}
-                <span className="font-serif italic tracking-tight text-white/90"
-                  style={{ fontFamily: "'Great Vibes', cursive", fontSize: '1.2em' }}>
+                <span
+                  className="italic tracking-wider text-white/80"
+                  style={{
+                    fontFamily: 'var(--font-alex-brush), cursive',
+                    fontSize: '2.2rem', // 簽名體通常需要較大字級才顯得優雅
+                    fontWeight: 300,
+                    letterSpacing: '0.05em',
+                    textShadow: '0 0 10px rgba(255,255,255,0.1)' // 增加一點點環境光的通透感
+                  }}
+                >
                   Catherine Yang
                 </span>
               </span>

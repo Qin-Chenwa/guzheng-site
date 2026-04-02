@@ -540,63 +540,81 @@ export default function HomePage() {
               </div>
 
               <div className="relative mb-8 sm:mb-10 flex flex-col items-center">
-                {/* 頂部裝飾線 (保留原設計) */}
+                {/* 頂部裝飾線 */}
                 <div className="absolute -top-14 left-1/2 -translate-x-1/2 w-px h-10
                   bg-gradient-to-b from-transparent via-amber-400/60 to-transparent
                   hidden sm:block" />
 
-                {/* 古箏剪紙 Logo 容器 */}
-                <div className="relative group">
-                  {/* 背景發光效果：模擬剪紙背後的透光感 */}
-                  <div className="absolute inset-0 bg-amber-500/20 blur-3xl rounded-full scale-150 opacity-50 group-hover:opacity-80 transition-opacity duration-1000" />
+                {/* 古典剪紙 Logo 容器 */}
+                <div className="relative group flex flex-col items-center">
+                  {/* 背景透光感 (剪紙燈箱效果) */}
+                  <div className="absolute inset-0 bg-amber-600/10 blur-[80px] rounded-full scale-150 opacity-60" />
 
-                  {/* 這裡置入古箏剪紙圖形 */}
-                  <div className="relative z-10 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80">
+                  {/* Logo 圖形區 */}
+                  <div className="relative z-10 w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96">
                     <svg
                       viewBox="0 0 200 200"
                       fill="none"
                       xmlns="http://w3.org"
-                      className="w-full h-full drop-shadow-[0_0_15px_rgba(245,158,11,0.5)]"
+                      className="w-full h-full drop-shadow-[0_0_20px_rgba(245,158,11,0.4)]"
                     >
-                      {/* 剪紙外圈裝飾（雲紋或圓框） */}
-                      <circle cx="100" cy="100" r="95" stroke="currentColor" strokeWidth="1" className="text-amber-400/40" strokeDasharray="4 4" />
+                      {/* 外圈：太鼓圓形意象 (剪紙鏤空感) */}
+                      <circle cx="100" cy="100" r="90" stroke="#fbbf24" strokeWidth="0.5" strokeDasharray="6 3" opacity="0.5" />
+                      <circle cx="100" cy="100" r="82" stroke="#f59e0b" strokeWidth="2" />
 
-                      {/* 古箏意象圖形 (簡約剪紙風格) */}
+                      {/* 內圈裝飾：波浪紋/雲紋 */}
+                      <path d="M40 100 A60 60 0 0 1 160 100" stroke="#f59e0b" strokeWidth="0.5" opacity="0.3" />
+
+                      {/* 古箏意象 (橫向流暢線條) */}
                       <path
-                        d="M40 80 Q100 60 160 80 L155 120 Q100 140 45 120 Z"
-                        className="fill-amber-400/90"
-                        style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' }}
+                        d="M45 85 Q100 75 155 85 L150 115 Q100 125 50 115 Z"
+                        fill="#f59e0b"
+                        fillOpacity="0.15"
+                        stroke="#fbbf24"
+                        strokeWidth="1.5"
                       />
-                      {/* 琴弦線條 */}
-                      {[...Array(7)].map((_, i) => (
+                      {/* 象徵琴弦的細線 */}
+                      {[...Array(5)].map((_, i) => (
                         <line
                           key={i}
-                          x1="50" y1={85 + i * 5} x2="150" y2={85 + i * 5}
-                          stroke="white" strokeWidth="0.5" strokeOpacity="0.6"
+                          x1="55" y1={92 + i * 4} x2="145" y2={92 + i * 4}
+                          stroke="white" strokeWidth="0.3" strokeOpacity="0.5"
                         />
                       ))}
 
-                      {/* 中間鏤空或疊加的文字 (若仍想保留文字感) */}
-                      <foreignObject x="50" y="70" width="100" height="60">
-                        <div className={`${calligraphy} text-center flex items-center justify-center h-full text-black/80 text-3xl sm:text-4xl`}>
-                          弦鳴
+                      {/* 文字疊加區域 (剪紙風格文字) */}
+                      <foreignObject x="0" y="75" width="200" height="50">
+                        <div className={`${calligraphy} flex justify-center items-center gap-8 text-white text-4xl sm:text-5xl`}>
+                          <span className="drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">古箏</span>
+                          <span className="text-amber-400 drop-shadow-[0_0_10px_rgba(245,158,11,0.6)]">太鼓</span>
                         </div>
                       </foreignObject>
                     </svg>
                   </div>
 
-                  {/* 底部裝飾線與副標題 */}
-                  <div className="mt-4 flex flex-col items-center">
-                    <h1 className={`${calligraphy} text-3xl sm:text-5xl text-amber-300 relative`}>
-                      <RevealText text="墨韻古箏" delay={introDone ? 0.25 : 2.55} />
-                      {/* 底部發光橫線 */}
-                      <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-[2px]
+                  {/* 下方標題與動態裝飾 */}
+                  <div className="mt-6 text-center">
+                    <h1 className={`${calligraphy} text-4xl sm:text-6xl md:text-8xl text-white tracking-[0.2em] relative inline-block`}>
+                      {/* 使用你原本的 RevealText 組件 */}
+                      <RevealText text="古箏" delay={introDone ? 0.1 : 2.4} />
+                      <span className="text-amber-400 mx-2 sm:mx-4">
+                        <RevealText text="太鼓" delay={introDone ? 0.25 : 2.55} />
+                      </span>
+
+                      {/* 裝飾橫線：模擬書法撇筆 */}
+                      <span className="absolute -bottom-4 left-0 w-full h-[3px]
                          bg-gradient-to-r from-transparent via-amber-400 to-transparent
-                         shadow-[0_0_12px_#f59e0b]" />
+                         shadow-[0_0_15px_#f59e0b]" />
                     </h1>
+
+                    {/* 底部小副標 (可選) */}
+                    <p className="mt-8 text-amber-200/60 tracking-[0.5em] text-xs sm:text-sm uppercase">
+                      Guzheng & Taiko Performance Art
+                    </p>
                   </div>
                 </div>
               </div>
+
 
 
               <motion.p

@@ -598,12 +598,7 @@ export default function HomePage() {
                       <circle cx="10" cy="50" r="10" fill="url(#noteGradient)" className="animate-bounce-slow" />
                       <circle cx="25" cy="45" r="7" fill="url(#noteGradient)" opacity="0.6" />
 
-                      {/* 連接音符的符尾：毛筆撇筆線條 */}
-                      <path
-                        d="M15 -5 Q40 0 45 30"
-                        stroke="#fbbf24" strokeWidth="4" strokeLinecap="round" fill="none"
-                        className="drop-shadow-[0_0_5px_rgba(251,191,36,0.5)]"
-                      />
+
                     </g>
 
                     {/* 漸層定義 */}

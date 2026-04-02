@@ -539,21 +539,65 @@ export default function HomePage() {
                 <div className="h-px w-8 sm:w-12 bg-amber-500/50" />
               </div>
 
-              <div className="relative mb-8 sm:mb-10">
+              <div className="relative mb-8 sm:mb-10 flex flex-col items-center">
+                {/* 頂部裝飾線 (保留原設計) */}
                 <div className="absolute -top-14 left-1/2 -translate-x-1/2 w-px h-10
-                                bg-gradient-to-b from-transparent via-amber-400/60 to-transparent
-                                hidden sm:block" />
-                {/* 手機：text-5xl → 桌機：text-9xl */}
-                <h1 className={`${calligraphy} text-5xl sm:text-7xl md:text-9xl text-white`}>
-                  <RevealText text="弦鳴" delay={introDone ? 0.1 : 2.4} />
-                  <span className="text-amber-300 ml-2 sm:ml-4 relative inline-block">
-                    <RevealText text="墨韻" delay={introDone ? 0.25 : 2.55} />
-                    <span className="absolute -bottom-2 left-0 w-full h-[2px]
-                                     bg-gradient-to-r from-amber-400 via-amber-200/80 to-transparent
-                                     shadow-[0_0_8px_#f59e0b]" />
-                  </span>
-                </h1>
+                  bg-gradient-to-b from-transparent via-amber-400/60 to-transparent
+                  hidden sm:block" />
+
+                {/* 古箏剪紙 Logo 容器 */}
+                <div className="relative group">
+                  {/* 背景發光效果：模擬剪紙背後的透光感 */}
+                  <div className="absolute inset-0 bg-amber-500/20 blur-3xl rounded-full scale-150 opacity-50 group-hover:opacity-80 transition-opacity duration-1000" />
+
+                  {/* 這裡置入古箏剪紙圖形 */}
+                  <div className="relative z-10 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80">
+                    <svg
+                      viewBox="0 0 200 200"
+                      fill="none"
+                      xmlns="http://w3.org"
+                      className="w-full h-full drop-shadow-[0_0_15px_rgba(245,158,11,0.5)]"
+                    >
+                      {/* 剪紙外圈裝飾（雲紋或圓框） */}
+                      <circle cx="100" cy="100" r="95" stroke="currentColor" strokeWidth="1" className="text-amber-400/40" strokeDasharray="4 4" />
+
+                      {/* 古箏意象圖形 (簡約剪紙風格) */}
+                      <path
+                        d="M40 80 Q100 60 160 80 L155 120 Q100 140 45 120 Z"
+                        className="fill-amber-400/90"
+                        style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' }}
+                      />
+                      {/* 琴弦線條 */}
+                      {[...Array(7)].map((_, i) => (
+                        <line
+                          key={i}
+                          x1="50" y1={85 + i * 5} x2="150" y2={85 + i * 5}
+                          stroke="white" strokeWidth="0.5" strokeOpacity="0.6"
+                        />
+                      ))}
+
+                      {/* 中間鏤空或疊加的文字 (若仍想保留文字感) */}
+                      <foreignObject x="50" y="70" width="100" height="60">
+                        <div className={`${calligraphy} text-center flex items-center justify-center h-full text-black/80 text-3xl sm:text-4xl`}>
+                          弦鳴
+                        </div>
+                      </foreignObject>
+                    </svg>
+                  </div>
+
+                  {/* 底部裝飾線與副標題 */}
+                  <div className="mt-4 flex flex-col items-center">
+                    <h1 className={`${calligraphy} text-3xl sm:text-5xl text-amber-300 relative`}>
+                      <RevealText text="墨韻古箏" delay={introDone ? 0.25 : 2.55} />
+                      {/* 底部發光橫線 */}
+                      <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-[2px]
+                         bg-gradient-to-r from-transparent via-amber-400 to-transparent
+                         shadow-[0_0_12px_#f59e0b]" />
+                    </h1>
+                  </div>
+                </div>
               </div>
+
 
               <motion.p
                 initial={{ opacity: 0, y: 12 }}

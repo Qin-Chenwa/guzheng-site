@@ -540,117 +540,111 @@ export default function HomePage() {
               </div>
 
               <div className="relative mb-16 flex flex-col items-center justify-center">
-                {/* 背景深邃光暈 - 增加層次感 */}
-                <div className="absolute inset-0 bg-amber-900/20 blur-[150px] rounded-full opacity-50" />
+
+
+                {/* 背景暈染感 */}
+                <div className="absolute inset-0 bg-amber-900/10 blur-[120px] rounded-full opacity-30" />
 
                 <div className="relative z-10 w-80 h-80 sm:w-[500px] sm:h-[500px]">
                   <svg
-                    viewBox="0 0 200 200"
+                    viewBox="0 0 240 200"
                     fill="none"
                     xmlns="http://w3.org"
-                    className="w-full h-full drop-shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
+                    className="w-full h-full drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]"
                   >
-                    {/* 1. 太鼓主體圓框：強化鼓身質感 */}
-                    {/* 鼓身外圈 (實線線條感) */}
-                    <circle cx="100" cy="100" r="90" stroke="url(#goldGradient)" strokeWidth="3" opacity="0.8" />
-                    <circle cx="100" cy="100" r="82" stroke="#f59e0b" strokeWidth="0.5" opacity="0.4" />
-
-                    {/* 鼓釘裝飾 (極簡點綴) */}
-                    {[...Array(12)].map((_, i) => (
-                      <circle
-                        key={i}
-                        cx={100 + 90 * Math.cos(i * Math.PI / 6)}
-                        cy={100 + 90 * Math.sin(i * Math.PI / 6)}
-                        r="1.5" fill="#fbbf24"
-                      />
-                    ))}
-
-                    {/* 2. 文字融合設計：將「古箏」「太鼓」嵌入鼓面 */}
-                    <g className={`${calligraphy} fill-amber-500/20 text-[12px] tracking-[2em] opacity-40`}>
-                      <text x="50%" y="45%" textAnchor="middle">古箏</text>
-                      <text x="50%" y="160" textAnchor="middle">太鼓</text>
-                    </g>
-
-                    {/* 3. 古箏主體：破框設計 + 琴碼 (左側 1/3) */}
-                    <g>
-                      {/* 琴身 */}
-                      <path
-                        d="M10 95 Q100 75 190 95 L185 115 Q100 135 15 115 Z"
-                        fill="url(#bodyGradient)"
-                        stroke="#fbbf24"
-                        strokeWidth="1.2"
-                      />
-
-                      {/* 🎹 琴碼 (雁柱)：在左側 1/3 位置 (x=40~70) */}
-                      {[...Array(5)].map((_, i) => (
-                        <path
+                    {/* 1. 太鼓：縮小的核心圓框 (精緻化) */}
+                    <g transform="translate(20, 0)">
+                      <circle cx="100" cy="100" r="65" stroke="url(#inkGradient)" strokeWidth="1.5" opacity="0.6" />
+                      <circle cx="100" cy="100" r="58" stroke="#f59e0b" strokeWidth="0.5" strokeDasharray="15 10" opacity="0.3" />
+                      {/* 鼓釘 - 隨機點狀感 */}
+                      {[...Array(8)].map((_, i) => (
+                        <circle
                           key={i}
-                          d={`M${45 + i * 8} ${92 + i * 2} L${49 + i * 8} ${82 + i * 2} L${53 + i * 8} ${92 + i * 2}`}
-                          stroke="#fbbf24" strokeWidth="1" fill="none" opacity="0.9"
+                          cx={100 + 65 * Math.cos(i * Math.PI / 4)}
+                          cy={100 + 65 * Math.sin(i * Math.PI / 4)}
+                          r="1.2" fill="#fbbf24"
                         />
                       ))}
+                    </g>
 
-                      {/* 琴弦 */}
+                    {/* 2. 古箏：破框而出的長型琴身 (橫跨整個 SVG) */}
+                    <g>
+                      {/* 琴身 - 帶有木質漸層 */}
+                      <path
+                        d="M10 105 Q120 80 230 105 L225 125 Q120 145 15 125 Z"
+                        fill="url(#bodyGradient)"
+                        stroke="#fbbf24"
+                        strokeWidth="0.8"
+                        opacity="0.9"
+                      />
+
+                      {/* 🎹 琴碼 (雁柱)：位於左側 1/3，且在琴弦「下方」 */}
                       {[...Array(6)].map((_, i) => (
                         <path
                           key={i}
-                          d={`M15 ${98 + i * 3} Q100 ${92 + i * 3} 185 ${98 + i * 3}`}
-                          stroke="white" strokeWidth="0.3" strokeOpacity="0.5"
+                          d={`M${35 + i * 9} 118 L${40 + i * 9} 104 L${45 + i * 9} 118`}
+                          fill="#78350f" stroke="#fbbf24" strokeWidth="0.5" opacity="0.8"
+                        />
+                      ))}
+
+                      {/* 琴弦 - 覆蓋在琴碼之上 */}
+                      {[...Array(7)].map((_, i) => (
+                        <path
+                          key={i}
+                          d={`M15 ${102 + i * 3.2} Q120 ${92 + i * 3.2} 225 ${102 + i * 3.2}`}
+                          stroke="white" strokeWidth="0.3" strokeOpacity="0.4"
                         />
                       ))}
                     </g>
 
-                    {/* 4. 右下角：八分音符與鼓棒的藝術結合 */}
-                    <g transform="translate(135, 105)">
-                      {/* 鼓棒轉化為音符符桿 (流暢斜線) */}
+                    {/* 3. 右下角：書畫風音符與鼓棒 (意象結合) */}
+                    <g transform="translate(160, 110)">
+                      {/* 鼓棒：轉化為書法的「撇」與「捺」 */}
                       <path
-                        d="M10 0 L35 60"
-                        stroke="url(#goldGradient)" strokeWidth="4" strokeLinecap="round"
-                        className="drop-shadow-[0_0_10px_#f59e0b]"
+                        d="M10 0 L45 70"
+                        stroke="url(#inkGradient)" strokeWidth="5" strokeLinecap="round"
+                        className="opacity-90"
                       />
+                      {/* 音符符尾：毛筆「飛白」效果 (模擬筆觸末端散開) */}
                       <path
-                        d="M25 5 L45 55"
-                        stroke="url(#goldGradient)" strokeWidth="2.5" strokeLinecap="round" opacity="0.6"
-                      />
-
-                      {/* 🎵 八分音符符尾 (優雅撇筆，像書法) */}
-                      <path
-                        d="M35 15 C60 15 65 45 45 55"
-                        stroke="#fbbf24" strokeWidth="5" strokeLinecap="round" fill="none"
-                        className="drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]"
+                        d="M35 25 C65 20 75 55 50 75"
+                        stroke="#fbbf24" strokeWidth="6" strokeLinecap="round" fill="none"
+                        strokeDasharray="1 2"
+                        className="drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]"
                       />
 
-                      {/* 音符頭部 (寶石質感) */}
-                      <circle cx="35" cy="65" r="12" fill="url(#noteGradient)" />
-                      <circle cx="50" cy="58" r="8" fill="url(#noteGradient)" opacity="0.7" />
+                      {/* 音符頭部：水墨渲染感的大圓點 */}
+                      <circle cx="45" cy="78" r="14" fill="url(#inkGradient)" />
+                      <circle cx="45" cy="78" r="10" fill="url(#goldGradient)" opacity="0.5" />
                     </g>
+
+                    {/* 4. 文字融合：隱含在背景中 */}
+                    <text x="120" y="70" className={`${calligraphy} fill-amber-500/30 text-[14px] tracking-[1.5em]`}>古箏</text>
+                    <text x="120" y="165" className={`${calligraphy} fill-amber-500/30 text-[14px] tracking-[1.5em]`}>太鼓</text>
 
                     {/* 漸層定義 */}
                     <defs>
-                      <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <linearGradient id="inkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stopColor="#fbbf24" />
-                        <stop offset="50%" stopColor="#d97706" />
-                        <stop offset="100%" stopColor="#78350f" />
+                        <stop offset="100%" stopColor="#451a03" />
                       </linearGradient>
-                      <radialGradient id="noteGradient" cx="30%" cy="30%" r="100%">
-                        <stop offset="0%" stopColor="#fff" />
+                      <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#fde68a" />
                         <stop offset="100%" stopColor="#f59e0b" />
-                      </radialGradient>
-                      <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="rgba(20,20,20,0.8)" />
-                        <stop offset="50%" stopColor="rgba(245,158,11,0.2)" />
-                        <stop offset="100%" stopColor="rgba(20,20,20,0.8)" />
+                      </linearGradient>
+                      <linearGradient id="bodyGradient" x1="0%" y1="50%" x2="100%" y2="50%">
+                        <stop offset="0%" stopColor="#1a0a02" />
+                        <stop offset="50%" stopColor="#451a03" />
+                        <stop offset="100%" stopColor="#1a0a02" />
                       </linearGradient>
                     </defs>
                   </svg>
                 </div>
 
-                {/* 底部融合裝飾 */}
-                <div className="absolute -bottom-4 flex flex-col items-center">
-                  <div className="w-48 h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent" />
-                  <div className="mt-2 text-[10px] text-amber-500/40 tracking-[1em] uppercase">Guzheng & Taiko Harmony</div>
-                </div>
+                {/* 底部書法長線 */}
+                <div className="absolute -bottom-6 w-80 h-px bg-gradient-to-r from-transparent via-amber-600/30 to-transparent" />
               </div>
+
 
 
 

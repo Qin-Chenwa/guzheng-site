@@ -41,6 +41,7 @@ const journeyItems = [
 const works = [
   { id: "8YYcHynEovc", title: "演奏曲目 01", subtitle: "高山流水" },
   { id: "W_oJ0lELEOw", title: "演奏曲目 02", subtitle: "漁舟唱晚" },
+  { id: "KWO_UX5Yr_U", title: "演奏曲目 03", subtitle: "高山流水" },
 ];
 
 const testimonials = [
@@ -62,7 +63,7 @@ const testimonials = [
 ];
 
 // 替換為真實 IG 帳號與圖片
-const instagramHandle = "你的IG帳號";
+const instagramHandle = "wa6018";
 const instagramPosts = [
   { id: 1, image: `${sitePath}/ig-1.jpg`, alt: "演出現場 1" },
   { id: 2, image: `${sitePath}/ig-2.jpg`, alt: "演出現場 2" },

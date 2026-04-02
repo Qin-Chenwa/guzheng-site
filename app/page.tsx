@@ -38,9 +38,9 @@ const journeyItems = [
 ];
 
 const works = [
-  { id: "8YYcHynEovc", title: "演奏曲目 01", subtitle: "高山流水", isShort: false },
-  { id: "W_oJ0lELEOw", title: "演奏曲目 02", subtitle: "漁舟唱晚", isShort: false },
-  { id: "KWO_UX5Yr_U", title: "演奏曲目 03", subtitle: "高山流水", isShort: true },
+  { id: "8YYcHynEovc", title: "", subtitle: "TESLA MODEL 3 新車發表會跨界演出", isShort: true },
+  { id: "W_oJ0lELEOw", title: "", subtitle: "江蕙《無·有》小巨蛋演唱會古箏演奏", isShort: true },
+  { id: "KWO_UX5Yr_U", title: "", subtitle: "企業私人莊園古箏現場演奏", isShort: true },
 ];
 
 const testimonials = [

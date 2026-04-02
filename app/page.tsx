@@ -479,24 +479,7 @@ export default function HomePage() {
             <a href="#" className="flex items-center gap-2.5 group" aria-label="回到頂部">
               <div className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_10px_#fbbf24]
                               group-hover:scale-125 transition-transform" />
-              <span className={`${calligraphy} text-base sm:text-lg tracking-widest flex items-center gap-3`}>
-                {/* 中文維持原書法字體 */}
-                <span className="opacity-80">楊云慈</span>
-
-                {/* 英文切換為草寫感 (使用 italic 與 serif 模擬) */}
-                <span
-                  className="italic tracking-wider text-white/80"
-                  style={{
-                    fontFamily: 'var(--font-alex-brush), cursive',
-                    fontSize: '2.2rem', // 簽名體通常需要較大字級才顯得優雅
-                    fontWeight: 300,
-                    letterSpacing: '0.05em',
-                    textShadow: '0 0 10px rgba(255,255,255,0.1)' // 增加一點點環境光的通透感
-                  }}
-                >
-                  Catherine Yang
-                </span>
-              </span>
+              <span className={`${calligraphy} text-base sm:text-lg tracking-widest`}>楊云慈 Catherine Yang</span>
             </a>
 
             <div className="hidden lg:flex items-center gap-10">

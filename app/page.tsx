@@ -539,81 +539,80 @@ export default function HomePage() {
                 <div className="h-px w-8 sm:w-12 bg-amber-500/50" />
               </div>
 
-              <div className="relative mb-8 sm:mb-10 flex flex-col items-center">
-                {/* 頂部裝飾線 */}
-                <div className="absolute -top-14 left-1/2 -translate-x-1/2 w-px h-10
-                  bg-gradient-to-b from-transparent via-amber-400/60 to-transparent
+              <div className="relative mb-12 sm:mb-16 flex flex-col items-center">
+                {/* 頂部裝飾線：保留極簡線條感 */}
+                <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-px h-12
+                  bg-gradient-to-b from-transparent via-amber-400/50 to-transparent
                   hidden sm:block" />
 
                 {/* 古典剪紙 Logo 容器 */}
-                <div className="relative group flex flex-col items-center">
-                  {/* 背景透光感 (剪紙燈箱效果) */}
-                  <div className="absolute inset-0 bg-amber-600/10 blur-[80px] rounded-full scale-150 opacity-60" />
+                <div className="relative group">
+                  {/* 背景透光感 (深層光暈) */}
+                  <div className="absolute inset-0 bg-amber-600/10 blur-[100px] rounded-full scale-150 opacity-60" />
 
                   {/* Logo 圖形區 */}
-                  <div className="relative z-10 w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96">
+                  <div className="relative z-10 w-64 h-64 sm:w-80 sm:h-80 md:w-[400px] md:h-[400px]">
                     <svg
                       viewBox="0 0 200 200"
                       fill="none"
                       xmlns="http://w3.org"
-                      className="w-full h-full drop-shadow-[0_0_20px_rgba(245,158,11,0.4)]"
+                      className="w-full h-full drop-shadow-[0_0_25px_rgba(245,158,11,0.5)]"
                     >
-                      {/* 外圈：太鼓圓形意象 (剪紙鏤空感) */}
-                      <circle cx="100" cy="100" r="90" stroke="#fbbf24" strokeWidth="0.5" strokeDasharray="6 3" opacity="0.5" />
-                      <circle cx="100" cy="100" r="82" stroke="#f59e0b" strokeWidth="2" />
+                      {/* 外圈：太鼓圓框 (剪紙鏤空裝飾) */}
+                      <circle cx="100" cy="100" r="92" stroke="#f59e0b" strokeWidth="1.5" strokeDasharray="12 4" opacity="0.6" />
+                      <circle cx="100" cy="100" r="84" stroke="#fbbf24" strokeWidth="0.5" />
 
-                      {/* 內圈裝飾：波浪紋/雲紋 */}
-                      <path d="M40 100 A60 60 0 0 1 160 100" stroke="#f59e0b" strokeWidth="0.5" opacity="0.3" />
+                      {/* 內層裝飾：祥雲/波浪 (象徵音律流動) */}
+                      <path d="M50 140 Q100 160 150 140" stroke="#f59e0b" strokeWidth="0.5" opacity="0.4" />
+                      <path d="M60 150 Q100 165 140 150" stroke="#f59e0b" strokeWidth="0.5" opacity="0.2" />
 
-                      {/* 古箏意象 (橫向流暢線條) */}
+                      {/* 古箏主體 (橫向優雅弧線) */}
                       <path
-                        d="M45 85 Q100 75 155 85 L150 115 Q100 125 50 115 Z"
+                        d="M35 95 Q100 80 165 95 L160 115 Q100 130 40 115 Z"
                         fill="#f59e0b"
-                        fillOpacity="0.15"
+                        fillOpacity="0.2"
                         stroke="#fbbf24"
                         strokeWidth="1.5"
                       />
-                      {/* 象徵琴弦的細線 */}
-                      {[...Array(5)].map((_, i) => (
+
+                      {/* 琴弦 (細緻如音符連線) */}
+                      {[...Array(6)].map((_, i) => (
                         <line
                           key={i}
-                          x1="55" y1={92 + i * 4} x2="145" y2={92 + i * 4}
-                          stroke="white" strokeWidth="0.3" strokeOpacity="0.5"
+                          x1="45" y1={100 + i * 3.5} x2="155" y2={100 + i * 3.5}
+                          stroke="white" strokeWidth="0.4" strokeOpacity="0.6"
                         />
                       ))}
 
-                      {/* 文字疊加區域 (剪紙風格文字) */}
-                      <foreignObject x="0" y="75" width="200" height="50">
-                        <div className={`${calligraphy} flex justify-center items-center gap-8 text-white text-4xl sm:text-5xl`}>
-                          <span className="drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">古箏</span>
-                          <span className="text-amber-400 drop-shadow-[0_0_10px_rgba(245,158,11,0.6)]">太鼓</span>
-                        </div>
-                      </foreignObject>
+                      {/* 🥁 新增：鼓棒元素 (斜向交叉，像是指揮棒也像音符柄) */}
+                      <g className="drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
+                        {/* 左斜鼓棒 */}
+                        <rect x="110" y="45" width="4" height="85" rx="2" transform="rotate(35 110 45)" fill="url(#stickGradient)" />
+                        {/* 右斜鼓棒 */}
+                        <rect x="85" y="48" width="4" height="85" rx="2" transform="rotate(-35 85 48)" fill="url(#stickGradient)" />
+
+                        {/* 鼓棒頭部裝飾 (點狀，增加音符感) */}
+                        <circle cx="158" cy="100" r="3.5" fill="#fbbf24" />
+                        <circle cx="42" cy="102" r="3.5" fill="#fbbf24" />
+                      </g>
+
+                      {/* 漸層定義 */}
+                      <defs>
+                        <linearGradient id="stickGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor="#fbbf24" />
+                          <stop offset="100%" stopColor="#d97706" />
+                        </linearGradient>
+                      </defs>
                     </svg>
                   </div>
 
-                  {/* 下方標題與動態裝飾 */}
-                  <div className="mt-6 text-center">
-                    <h1 className={`${calligraphy} text-4xl sm:text-6xl md:text-8xl text-white tracking-[0.2em] relative inline-block`}>
-                      {/* 使用你原本的 RevealText 組件 */}
-                      <RevealText text="古箏" delay={introDone ? 0.1 : 2.4} />
-                      <span className="text-amber-400 mx-2 sm:mx-4">
-                        <RevealText text="太鼓" delay={introDone ? 0.25 : 2.55} />
-                      </span>
-
-                      {/* 裝飾橫線：模擬書法撇筆 */}
-                      <span className="absolute -bottom-4 left-0 w-full h-[3px]
-                         bg-gradient-to-r from-transparent via-amber-400 to-transparent
-                         shadow-[0_0_15px_#f59e0b]" />
-                    </h1>
-
-                    {/* 底部小副標 (可選) */}
-                    <p className="mt-8 text-amber-200/60 tracking-[0.5em] text-xs sm:text-sm uppercase">
-                      Guzheng & Taiko Performance Art
-                    </p>
-                  </div>
+                  {/* 底部裝飾橫線：取代文字，強化中心點 */}
+                  <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-48 h-[2px]
+                    bg-gradient-to-r from-transparent via-amber-400/60 to-transparent
+                    shadow-[0_0_15px_#f59e0b]" />
                 </div>
               </div>
+
 
 
 

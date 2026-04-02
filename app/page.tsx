@@ -399,13 +399,33 @@ export default function HomePage() {
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                 className="h-px w-28 bg-amber-400 mx-auto mb-8 origin-left"
               />
-              <motion.h1
+              <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35, duration: 0.7 }}
-                className={`${calligraphy} text-5xl text-white`}>
-                楊云慈 Catherine Yang
-              </motion.h1>
+                className="flex flex-col items-start"
+              >
+                {/* 中文名字：保持書法感，但稍微縮小一點點作為襯托 */}
+                <span className={`${calligraphy} text-3xl text-amber-200/80 mb-1 tracking-widest`}>
+                  楊云慈
+                </span>
+
+                {/* 英文名字：使用草寫字體 (建議在 CSS 載入一個 Cursive Font) */}
+                {/* 這裡假設你已經定義了一個像是 cursive 或 signature 的 className */}
+                <h1 className="text-5xl sm:text-6xl text-white font-serif italic tracking-tight"
+                  style={{ fontFamily: "'Great Vibes', cursive", fontWeight: 400 }}>
+                  Catherine Yang
+                </h1>
+
+                {/* 裝飾細線：增加通透感與視覺延伸 */}
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ delay: 0.8, duration: 1 }}
+                  className="h-px bg-gradient-to-r from-amber-400/50 to-transparent mt-2"
+                />
+              </motion.div>
+
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -459,7 +479,16 @@ export default function HomePage() {
             <a href="#" className="flex items-center gap-2.5 group" aria-label="回到頂部">
               <div className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_10px_#fbbf24]
                               group-hover:scale-125 transition-transform" />
-              <span className={`${calligraphy} text-base sm:text-lg tracking-widest`}>楊云慈 Catherine Yang</span>
+              <span className={`${calligraphy} text-base sm:text-lg tracking-widest flex items-center gap-3`}>
+                {/* 中文維持原書法字體 */}
+                <span className="opacity-80">楊云慈</span>
+
+                {/* 英文切換為草寫感 (使用 italic 與 serif 模擬) */}
+                <span className="font-serif italic tracking-tight text-white/90"
+                  style={{ fontFamily: "'Great Vibes', cursive", fontSize: '1.2em' }}>
+                  Catherine Yang
+                </span>
+              </span>
             </a>
 
             <div className="hidden lg:flex items-center gap-10">
@@ -540,20 +569,20 @@ export default function HomePage() {
               </div>
 
 
-              <div className="relative mb-24 flex flex-col items-center justify-center">
+              <div className="relative mb-24 flex flex-col items-center justify-center overflow-visible">
                 {/* 背景：極簡空靈光暈 */}
-                <div className="absolute inset-0 bg-amber-500/5 blur-[160px] rounded-full opacity-30" />
+                <div className="absolute inset-0 bg-amber-500/5 blur-[180px] rounded-full opacity-30" />
 
-                <div className="relative z-10 w-full max-w-[800px] h-[300px]">
+                <div className="relative z-10 w-full max-w-[850px] h-[350px]">
                   <svg
-                    viewBox="0 0 400 120"
+                    viewBox="0 0 400 150"
                     fill="none"
                     xmlns="http://w3.org"
                     className="w-full h-full"
                   >
                     <defs>
-                      {/* 書法金屬漸層 - 增加通透與高級感 */}
-                      <linearGradient id="inkGold" x1="0%" y1="0%" x2="100%" y2="0%">
+                      {/* 書法絲綢漸層 - 模擬金屬絲線與水墨結合 */}
+                      <linearGradient id="silkInk" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#78350f" stopOpacity="0" />
                         <stop offset="20%" stopColor="#fbbf24" stopOpacity="0.8" />
                         <stop offset="50%" stopColor="#fff" stopOpacity="1" />
@@ -561,66 +590,79 @@ export default function HomePage() {
                         <stop offset="100%" stopColor="#78350f" stopOpacity="0" />
                       </linearGradient>
 
-                      {/* 渲染暈染濾鏡 */}
-                      <filter id="inkSway" x="-20%" y="-20%" width="140%" height="140%">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur" />
+                      {/* 渲染柔光濾鏡 */}
+                      <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="1.2" result="blur" />
                         <feComposite in="SourceGraphic" in2="blur" operator="over" />
                       </filter>
                     </defs>
 
-                    {/* 1. 書法主體：Guzheng & Taiko 的融合線條 */}
-                    <g filter="url(#inkSway)">
-                      {/* 古箏意象線條：G 的草書變體，延伸出如琴弦的細長飛白 */}
+                    {/* 1. 太鼓意象 (左側 Taiko) */}
+                    <g filter="url(#softGlow)" opacity="0.8">
+                      {/* T 的草寫：大氣的橫撇，象徵鼓聲的發散 */}
                       <path
-                        d="M40 80 C60 40 100 40 120 70 C140 100 180 110 240 70"
-                        stroke="url(#inkGold)" strokeWidth="1.5" strokeLinecap="round" fill="none"
-                        className="drop-shadow-[0_0_15px_rgba(251,191,36,0.3)]"
+                        d="M30 65 C80 50 140 55 160 65"
+                        stroke="url(#silkInk)" strokeWidth="5" strokeLinecap="round"
                       />
+                      {/* 太鼓共鳴圓弧：透亮的細線圓框 */}
+                      <circle cx="85" cy="85" r="50" stroke="url(#silkInk)" strokeWidth="0.5" strokeDasharray="15 20" opacity="0.3" />
+                      <circle cx="85" cy="85" r="42" stroke="white" strokeWidth="0.2" opacity="0.2" />
 
-                      {/* 太鼓意象線條：T 的橫筆化為一抹重墨，與 G 銜接 */}
-                      <path
-                        d="M210 60 C240 50 280 50 320 65"
-                        stroke="url(#inkGold)" strokeWidth="4" strokeLinecap="round" opacity="0.6"
-                      />
-
-                      {/* 2. 文字設計：極簡書法字體 */}
-                      {/* Guzheng - 柔美纖細 */}
-                      <text x="45" y="85" className={`${calligraphy} fill-white/90 text-[42px] font-extralight tracking-tighter`}>
-                        G<tspan className="text-[14px] fill-amber-200/40 tracking-[0.3em] font-light">uzheng</tspan>
-                      </text>
-
-                      {/* Taiko - 帶有力度 */}
-                      <text x="235" y="85" className={`${calligraphy} fill-white/80 text-[48px] font-thin italic`}>
-                        T<tspan className="text-[14px] fill-amber-200/40 tracking-[0.3em] font-light uppercase">aiko</tspan>
+                      {/* Taiko 草寫文字 */}
+                      <text x="55" y="100" className={`${calligraphy} fill-white/80 text-[52px] font-thin italic`}>
+                        T<tspan className="text-[12px] fill-amber-200/40 tracking-[0.4em] font-light">aiko</tspan>
                       </text>
                     </g>
 
-                    {/* 3. 意象點綴：琴碼與共鳴圓弧 (透明度極高) */}
-                    <g opacity="0.2">
-                      {/* 象徵古箏雁柱的點陣 */}
-                      {[...Array(5)].map((_, i) => (
-                        <circle key={i} cx={140 + i * 15} cy={85 + i * 2} r="1" fill="#fbbf24" />
+                    {/* 2. 古箏意象 (右側 Guzheng) */}
+                    <g filter="url(#softGlow)">
+                      {/* G 的草寫主線：優雅延伸成古箏的琴身輪廓 */}
+                      <path
+                        d="M130 95 C180 70 280 70 340 85 L335 105 C280 125 180 120 135 100"
+                        stroke="url(#silkInk)" strokeWidth="1.2" strokeLinecap="round" fill="rgba(251,191,36,0.03)"
+                      />
+
+                      {/* 🎹 琴碼 (雁柱)：精緻的三角形，呈弧形排列在左側 1/3 下方 */}
+                      {[...Array(7)].map((_, i) => (
+                        <path
+                          key={i}
+                          d={`M${155 + i * 15} 112 L${160 + i * 15} 98 L${165 + i * 15} 112`}
+                          stroke="#fbbf24" strokeWidth="0.6" fill="none" opacity="0.6"
+                        />
                       ))}
-                      {/* 象徵太鼓震動的殘影 */}
-                      <path d="M260 90 A40 40 0 0 1 340 90" stroke="#fbbf24" strokeWidth="0.5" strokeDasharray="5 10" />
+
+                      {/* 琴弦：如女性髮絲般纖細，透光而靈動 */}
+                      {[...Array(6)].map((_, i) => (
+                        <path
+                          key={i}
+                          d={`M140 ${98 + i * 3.5} Q220 ${88 + i * 3.5} 335 ${98 + i * 3.5}`}
+                          stroke="white" strokeWidth="0.2" strokeOpacity={0.4 - (i * 0.05)}
+                        />
+                      ))}
+
+                      {/* Guzheng 草寫文字 */}
+                      <text x="135" y="100" className={`${calligraphy} fill-white text-[58px] font-extralight tracking-tighter`}>
+                        G<tspan className="text-[12px] fill-amber-200/40 tracking-[0.4em] font-light">uzheng</tspan>
+                      </text>
                     </g>
 
-                    {/* 4. 女性柔美的髮絲細線 - 貫穿整體 */}
+                    {/* 3. 書法連綿線：象徵氣韻流轉 */}
                     <path
-                      d="M20 100 Q150 130 380 60"
-                      stroke="white" strokeWidth="0.2" strokeOpacity="0.1"
+                      d="M100 65 Q130 140 180 110"
+                      stroke="url(#silkInk)" strokeWidth="0.5" strokeDasharray="2 12" opacity="0.4"
                     />
                   </svg>
                 </div>
 
-                {/* 底部極簡文字：增加通透空氣感 */}
-                <div className="mt-2 text-center">
-                  <div className="h-px w-24 bg-gradient-to-r from-transparent via-amber-200/20 to-transparent mx-auto" />
-                  <p className="mt-4 text-amber-100/20 text-[9px] tracking-[2em] font-extralight uppercase pl-[2em]">
-                    Ethereal Strings
-                  </p>
+                {/* 底部融合副標 */}
+                <div className="mt-4 opacity-40 flex flex-col items-center">
+                  <div className="w-48 h-[0.5px] bg-gradient-to-r from-transparent via-amber-300 to-transparent" />
+                  <span className="mt-4 text-[10px] tracking-[1.5em] text-amber-100/60 uppercase font-extralight pl-[1.5em]">
+                    Silk & Spirit
+                  </span>
                 </div>
               </div>
+
 
 
 

@@ -539,144 +539,142 @@ export default function HomePage() {
                 <div className="h-px w-8 sm:w-12 bg-amber-500/50" />
               </div>
 
+
               <div className="relative mb-16 flex flex-col items-center justify-center">
+                {/* 背景墨跡暈染 */}
+                <div className="absolute inset-0 bg-gradient-radial from-amber-900/20 to-transparent blur-[120px] opacity-40" />
 
+                <div className="relative z-10 w-80 h-80 sm:w-[600px] sm:h-[400px]">
+                  <svg
+                    viewBox="0 0 300 150"
+                    fill="none"
+                    xmlns="http://w3.org"
+                    className="w-full h-full drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+                  >
+                    {/* 定義水墨濾鏡 */}
+                    <defs>
+                      <filter id="inkBlur" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                      </filter>
+                      <linearGradient id="brushGold" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#78350f" />
+                        <stop offset="50%" stopColor="#fbbf24" />
+                        <stop offset="100%" stopColor="#d97706" />
+                      </linearGradient>
+                    </defs>
 
-                <div className="relative mb-16 flex flex-col items-center justify-center">
-                  {/* 背景墨跡暈染 */}
-                  <div className="absolute inset-0 bg-gradient-radial from-amber-900/20 to-transparent blur-[120px] opacity-40" />
+                    {/* 1. 太鼓意象 (左側圓潤 T) */}
+                    <g filter="url(#inkBlur)" opacity="0.9">
+                      {/* T 的橫筆 = 鼓棒筆觸 */}
+                      <path
+                        d="M40 55 C80 45 130 50 150 55"
+                        stroke="url(#brushGold)" strokeWidth="8" strokeLinecap="round"
+                        className="drop-shadow-[0_0_10px_rgba(245,158,11,0.3)]"
+                      />
+                      {/* T 的直筆與圓弧 = 太鼓側影 */}
+                      <path
+                        d="M85 55 Q85 110 50 125 A45 45 0 0 1 40 40"
+                        stroke="url(#brushGold)" strokeWidth="4" fill="none" opacity="0.6"
+                      />
+                      <text x="55" y="95" className={`${calligraphy} fill-amber-200/80 text-[28px] italic`}>T</text>
+                      <text x="75" y="105" className="fill-amber-500/40 text-[10px] tracking-widest uppercase">aiko</text>
+                    </g>
 
-                  <div className="relative z-10 w-80 h-80 sm:w-[600px] sm:h-[400px]">
-                    <svg
-                      viewBox="0 0 300 150"
-                      fill="none"
-                      xmlns="http://w3.org"
-                      className="w-full h-full drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
-                    >
-                      {/* 定義水墨濾鏡 */}
-                      <defs>
-                        <filter id="inkBlur" x="-20%" y="-20%" width="140%" height="140%">
-                          <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
-                          <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                        </filter>
-                        <linearGradient id="brushGold" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#78350f" />
-                          <stop offset="50%" stopColor="#fbbf24" />
-                          <stop offset="100%" stopColor="#d97706" />
-                        </linearGradient>
-                      </defs>
+                    {/* 2. 古箏意象 (右側破框 G) */}
+                    <g filter="url(#inkBlur)">
+                      {/* G 的大弧線 = 古箏琴身延伸 */}
+                      <path
+                        d="M130 90 C180 70 260 70 290 85 L285 105 C250 120 180 120 135 100 Z"
+                        fill="url(#brushGold)" fillOpacity="0.15" stroke="url(#brushGold)" strokeWidth="1.5"
+                      />
 
-                      {/* 1. 太鼓意象 (左側圓潤 T) */}
-                      <g filter="url(#inkBlur)" opacity="0.9">
-                        {/* T 的橫筆 = 鼓棒筆觸 */}
+                      {/* 琴碼 (雁柱) - 隱含在 G 的內部節點 */}
+                      {[...Array(5)].map((_, i) => (
                         <path
-                          d="M40 55 C80 45 130 50 150 55"
-                          stroke="url(#brushGold)" strokeWidth="8" strokeLinecap="round"
-                          className="drop-shadow-[0_0_10px_rgba(245,158,11,0.3)]"
+                          key={i}
+                          d={`M${150 + i * 10} 105 L155 92 L160 105`}
+                          stroke="#fbbf24" strokeWidth="0.8" opacity="0.7"
                         />
-                        {/* T 的直筆與圓弧 = 太鼓側影 */}
+                      ))}
+
+                      {/* 琴弦 - 極細書法飛白 */}
+                      {[...Array(5)].map((_, i) => (
                         <path
-                          d="M85 55 Q85 110 50 125 A45 45 0 0 1 40 40"
-                          stroke="url(#brushGold)" strokeWidth="4" fill="none" opacity="0.6"
+                          key={i}
+                          d={`M140 ${92 + i * 3} Q210 ${85 + i * 3} 285 ${92 + i * 3}`}
+                          stroke="white" strokeWidth="0.2" strokeOpacity="0.3"
                         />
-                        <text x="55" y="95" className={`${calligraphy} fill-amber-200/80 text-[28px] italic`}>T</text>
-                        <text x="75" y="105" className="fill-amber-500/40 text-[10px] tracking-widest uppercase">aiko</text>
-                      </g>
+                      ))}
 
-                      {/* 2. 古箏意象 (右側破框 G) */}
-                      <g filter="url(#inkBlur)">
-                        {/* G 的大弧線 = 古箏琴身延伸 */}
-                        <path
-                          d="M130 90 C180 70 260 70 290 85 L285 105 C250 120 180 120 135 100 Z"
-                          fill="url(#brushGold)" fillOpacity="0.15" stroke="url(#brushGold)" strokeWidth="1.5"
-                        />
+                      <text x="135" y="95" className={`${calligraphy} fill-white text-[32px] font-bold`}>G</text>
+                      <text x="165" y="85" className="fill-amber-500/40 text-[10px] tracking-[0.5em] uppercase">uzheng</text>
+                    </g>
 
-                        {/* 琴碼 (雁柱) - 隱含在 G 的內部節點 */}
-                        {[...Array(5)].map((_, i) => (
-                          <path
-                            key={i}
-                            d={`M${150 + i * 10} 105 L155 92 L160 105`}
-                            stroke="#fbbf24" strokeWidth="0.8" opacity="0.7"
-                          />
-                        ))}
+                    {/* 3. 右下角：書法渲染音符 (鼓棒與音符結合的點睛之筆) */}
+                    <g transform="translate(230, 90)" filter="url(#inkBlur)">
+                      {/* 撇筆音符 */}
+                      <path
+                        d="M10 -20 Q30 0 35 45"
+                        stroke="#fbbf24" strokeWidth="5" strokeLinecap="round"
+                        className="opacity-80"
+                      />
+                      <path
+                        d="M30 10 C50 10 55 35 40 45"
+                        stroke="#fbbf24" strokeWidth="4" strokeLinecap="round" fill="none"
+                        strokeDasharray="1 3"
+                      />
+                      {/* 墨滴音符頭 */}
+                      <circle cx="35" cy="50" r="10" fill="url(#brushGold)" />
+                      <circle cx="35" cy="50" r="14" fill="#fbbf24" fillOpacity="0.1" />
+                    </g>
 
-                        {/* 琴弦 - 極細書法飛白 */}
-                        {[...Array(5)].map((_, i) => (
-                          <path
-                            key={i}
-                            d={`M140 ${92 + i * 3} Q210 ${85 + i * 3} 285 ${92 + i * 3}`}
-                            stroke="white" strokeWidth="0.2" strokeOpacity="0.3"
-                          />
-                        ))}
-
-                        <text x="135" y="95" className={`${calligraphy} fill-white text-[32px] font-bold`}>G</text>
-                        <text x="165" y="85" className="fill-amber-500/40 text-[10px] tracking-[0.5em] uppercase">uzheng</text>
-                      </g>
-
-                      {/* 3. 右下角：書法渲染音符 (鼓棒與音符結合的點睛之筆) */}
-                      <g transform="translate(230, 90)" filter="url(#inkBlur)">
-                        {/* 撇筆音符 */}
-                        <path
-                          d="M10 -20 Q30 0 35 45"
-                          stroke="#fbbf24" strokeWidth="5" strokeLinecap="round"
-                          className="opacity-80"
-                        />
-                        <path
-                          d="M30 10 C50 10 55 35 40 45"
-                          stroke="#fbbf24" strokeWidth="4" strokeLinecap="round" fill="none"
-                          strokeDasharray="1 3"
-                        />
-                        {/* 墨滴音符頭 */}
-                        <circle cx="35" cy="50" r="10" fill="url(#brushGold)" />
-                        <circle cx="35" cy="50" r="14" fill="#fbbf24" fillOpacity="0.1" />
-                      </g>
-
-                      {/* 4. 裝飾：中心融合點 */}
-                      <circle cx="120" cy="80" r="2" fill="#fbbf24" className="animate-pulse" />
-                    </svg>
-                  </div>
-
-                  {/* 底部渲染文字 */}
-                  <div className="mt-4 text-center">
-                    <div className="h-px w-32 bg-gradient-to-r from-transparent via-amber-500/40 to-transparent mx-auto" />
-                    <p className="mt-4 text-amber-200/40 text-[10px] tracking-[1.2em] font-light uppercase">
-                      The Fusion of Strings & Drums
-                    </p>
-                  </div>
+                    {/* 4. 裝飾：中心融合點 */}
+                    <circle cx="120" cy="80" r="2" fill="#fbbf24" className="animate-pulse" />
+                  </svg>
                 </div>
 
+                {/* 底部渲染文字 */}
+                <div className="mt-4 text-center">
+                  <div className="h-px w-32 bg-gradient-to-r from-transparent via-amber-500/40 to-transparent mx-auto" />
+                  <p className="mt-4 text-amber-200/40 text-[10px] tracking-[1.2em] font-light uppercase">
+                    The Fusion of Strings & Drums
+                  </p>
+                </div>
+              </div>
 
 
 
 
-                <motion.p
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: introDone ? 0.4 : 2.7, duration: 0.8 }}
-                  className="text-stone-300 text-sm sm:text-base md:text-xl tracking-[0.4em] sm:tracking-[0.6em] font-light mb-12 sm:mb-16 font-serif">
-                  指尖清風 · 弦音故事
-                </motion.p>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: introDone ? 0.55 : 2.85, duration: 0.8 }}
-                  className="flex gap-8 sm:gap-10 justify-center items-center font-serif">
-                  <a href="#works"
-                    className="group flex items-center gap-2 sm:gap-3 text-[11px] tracking-[0.4em] sm:tracking-[0.5em] text-stone-200
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: introDone ? 0.4 : 2.7, duration: 0.8 }}
+                className="text-stone-300 text-sm sm:text-base md:text-xl tracking-[0.4em] sm:tracking-[0.6em] font-light mb-12 sm:mb-16 font-serif">
+                指尖清風 · 弦音故事
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: introDone ? 0.55 : 2.85, duration: 0.8 }}
+                className="flex gap-8 sm:gap-10 justify-center items-center font-serif">
+                <a href="#works"
+                  className="group flex items-center gap-2 sm:gap-3 text-[11px] tracking-[0.4em] sm:tracking-[0.5em] text-stone-200
                              border-b border-amber-500/40 pb-2
                              hover:text-amber-400 hover:border-amber-400 transition-all duration-300">
-                    欣賞作品
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                  </a>
-                  <a href="#contact"
-                    className="group flex items-center gap-2 sm:gap-3 text-[11px] tracking-[0.4em] sm:tracking-[0.5em] text-stone-400
+                  欣賞作品
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </a>
+                <a href="#contact"
+                  className="group flex items-center gap-2 sm:gap-3 text-[11px] tracking-[0.4em] sm:tracking-[0.5em] text-stone-400
                              border-b border-white/15 pb-2
                              hover:text-stone-200 hover:border-white/40 transition-all duration-300">
-                    邀約洽談
-                    <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:translate-y-0.5">↘</span>
-                  </a>
-                </motion.div>
+                  邀約洽談
+                  <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:translate-y-0.5">↘</span>
+                </a>
+              </motion.div>
             </motion.div>
           </div>
 

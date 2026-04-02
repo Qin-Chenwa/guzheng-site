@@ -24,9 +24,9 @@ const navLinks = [
 ];
 
 const stats = [
-  { value: 12, suffix: '+', label: '年演奏資歷' },
-  { value: 80, suffix: '+', label: '場次演出經驗' },
-  { value: 6, suffix: '', label: '國際合作品牌' },
+  { value: 20, suffix: '+', label: '年演奏資歷' },
+  { value: 1000, suffix: '+', label: '場次演出經驗' },
+  { value: 6, suffix: '', label: '跨領域合作' },
   { value: 3, suffix: '', label: '音樂競賽獎項' },
 ];
 
@@ -37,11 +37,10 @@ const journeyItems = [
   { year: "2025", event: "江蕙《無·有》小巨蛋演唱會古箏演奏" },
 ];
 
-// 替換為真實 YouTube 影片 ID
 const works = [
-  { id: "8YYcHynEovc", title: "演奏曲目 01", subtitle: "高山流水" },
-  { id: "W_oJ0lELEOw", title: "演奏曲目 02", subtitle: "漁舟唱晚" },
-  { id: "KWO_UX5Yr_U", title: "演奏曲目 03", subtitle: "高山流水" },
+  { id: "8YYcHynEovc", title: "演奏曲目 01", subtitle: "高山流水", isShort: false },
+  { id: "W_oJ0lELEOw", title: "演奏曲目 02", subtitle: "漁舟唱晚", isShort: false },
+  { id: "KWO_UX5Yr_U", title: "演奏曲目 03", subtitle: "高山流水", isShort: true },
 ];
 
 const testimonials = [
@@ -62,8 +61,7 @@ const testimonials = [
   },
 ];
 
-// 替換為真實 IG 帳號與圖片
-const instagramHandle = "wa6018";
+const instagramHandle = "你的IG帳號";
 const instagramPosts = [
   { id: 1, image: `${sitePath}/ig-1.jpg`, alt: "演出現場 1" },
   { id: 2, image: `${sitePath}/ig-2.jpg`, alt: "演出現場 2" },
@@ -88,6 +86,15 @@ const stagger: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
 };
+
+// ─── 工具：偵測觸控裝置 ───────────────────────────────────────────────────────
+function useIsTouchDevice() {
+  const [isTouch, setIsTouch] = useState(false);
+  useEffect(() => {
+    setIsTouch(window.matchMedia('(pointer: coarse)').matches);
+  }, []);
+  return isTouch;
+}
 
 // ─── 子元件 ───────────────────────────────────────────────────────────────────
 
@@ -114,13 +121,14 @@ function CountUp({ target, suffix }: { target: number; suffix: string }) {
   return <span ref={ref}>{count}{suffix}</span>;
 }
 
-// 磁力按鈕
+// 磁力按鈕 — 桌機有磁力效果，手機 fallback 成一般連結/按鈕
 function MagneticButton({ children, className, href, onClick }: {
   children: React.ReactNode;
   className?: string;
   href?: string;
   onClick?: () => void;
 }) {
+  const isTouch = useIsTouchDevice();
   const ref = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ x: 0, y: 0 });
 
@@ -133,6 +141,11 @@ function MagneticButton({ children, className, href, onClick }: {
   }, []);
 
   const handleMouseLeave = useCallback(() => setPos({ x: 0, y: 0 }), []);
+
+  if (isTouch) {
+    if (href) return <a href={href} className={className}>{children}</a>;
+    return <button onClick={onClick} className={className}>{children}</button>;
+  }
 
   const inner = (
     <motion.div
@@ -169,18 +182,19 @@ function RevealText({ text, className, delay = 0 }: { text: string; className?: 
   );
 }
 
-// 圖片 3D 視差
+// 圖片 3D 視差（手機不套 tilt）
 function ParallaxImage({ src, alt, height = "h-[520px]" }: { src: string; alt: string; height?: string }) {
+  const isTouch = useIsTouchDevice();
   const ref = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!ref.current) return;
+    if (isTouch || !ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12;
     const y = ((e.clientY - rect.top) / rect.height - 0.5) * -12;
     setTilt({ x, y });
-  }, []);
+  }, [isTouch]);
 
   const handleMouseLeave = useCallback(() => setTilt({ x: 0, y: 0 }), []);
 
@@ -195,7 +209,11 @@ function ParallaxImage({ src, alt, height = "h-[520px]" }: { src: string; alt: s
         transition={{ type: 'spring', stiffness: 200, damping: 25 }}
         className={`relative ${height} rounded-[2rem] overflow-hidden shadow-2xl shadow-stone-950/60`}
         style={{ transformStyle: 'preserve-3d' }}>
-        <img src={src} alt={alt}
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0
                      scale-100 group-hover:scale-105 transition-all duration-1000" />
         <div className="absolute inset-0 bg-gradient-to-t from-stone-950/30 to-transparent" />
@@ -204,64 +222,87 @@ function ParallaxImage({ src, alt, height = "h-[520px]" }: { src: string; alt: s
   );
 }
 
-// 自訂游標
+// 自訂游標 — 只在非觸控裝置顯示，且改用 DOM 直接操作避免頻繁 re-render
 function CustomCursor({ darkMode }: { darkMode: boolean }) {
-  const [pos, setPos] = useState({ x: -100, y: -100 });
-  const [trail, setTrail] = useState({ x: -100, y: -100 });
-  const [hovering, setHovering] = useState(false);
-  const trailRef = useRef({ x: -100, y: -100 });
+  const isTouch = useIsTouchDevice();
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
   const posRef = useRef({ x: -100, y: -100 });
+  const trailRef = useRef({ x: -100, y: -100 });
+  const hoveringRef = useRef(false);
+  const color = darkMode ? '#fbbf24' : '#92400e';
 
   useEffect(() => {
+    if (isTouch) return;
+
     const onMove = (e: MouseEvent) => {
       posRef.current = { x: e.clientX, y: e.clientY };
-      setPos({ x: e.clientX, y: e.clientY });
+      if (dotRef.current) {
+        dotRef.current.style.left = `${e.clientX}px`;
+        dotRef.current.style.top = `${e.clientY}px`;
+      }
     };
     const onEnter = (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest('a,button,[data-hover]')) setHovering(true);
+      if ((e.target as HTMLElement).closest('a,button,[data-hover]')) {
+        hoveringRef.current = true;
+        if (dotRef.current) {
+          dotRef.current.style.width = '20px';
+          dotRef.current.style.height = '20px';
+          dotRef.current.style.boxShadow = `0 0 14px ${color}`;
+        }
+      }
     };
     const onLeave = (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest('a,button,[data-hover]')) setHovering(false);
+      if ((e.target as HTMLElement).closest('a,button,[data-hover]')) {
+        hoveringRef.current = false;
+        if (dotRef.current) {
+          dotRef.current.style.width = '10px';
+          dotRef.current.style.height = '10px';
+          dotRef.current.style.boxShadow = `0 0 6px ${color}`;
+        }
+      }
     };
     window.addEventListener('mousemove', onMove);
     window.addEventListener('mouseover', onEnter);
     window.addEventListener('mouseout', onLeave);
-    return () => {
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('mouseover', onEnter);
-      window.removeEventListener('mouseout', onLeave);
-    };
-  }, []);
 
-  useEffect(() => {
     let animId: number;
     const loop = () => {
       trailRef.current = {
         x: trailRef.current.x + (posRef.current.x - trailRef.current.x) * 0.12,
         y: trailRef.current.y + (posRef.current.y - trailRef.current.y) * 0.12,
       };
-      setTrail({ ...trailRef.current });
+      if (ringRef.current) {
+        ringRef.current.style.left = `${trailRef.current.x}px`;
+        ringRef.current.style.top = `${trailRef.current.y}px`;
+      }
       animId = requestAnimationFrame(loop);
     };
     animId = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(animId);
-  }, []);
 
-  const color = darkMode ? '#fbbf24' : '#92400e';
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseover', onEnter);
+      window.removeEventListener('mouseout', onLeave);
+      cancelAnimationFrame(animId);
+    };
+  }, [isTouch, color]);
+
+  if (isTouch) return null;
 
   return (
     <>
-      <div style={{
-        position: 'fixed', left: pos.x, top: pos.y, zIndex: 9999,
-        width: hovering ? 20 : 10, height: hovering ? 20 : 10,
+      <div ref={dotRef} style={{
+        position: 'fixed', left: -100, top: -100, zIndex: 9999,
+        width: 10, height: 10,
         background: color,
-        transform: `translate(-50%, -50%) rotate(45deg)`,
-        transition: 'width .15s, height .15s',
+        transform: 'translate(-50%, -50%) rotate(45deg)',
+        transition: 'width .15s, height .15s, box-shadow .15s',
         pointerEvents: 'none',
-        boxShadow: `0 0 ${hovering ? 14 : 6}px ${color}`,
+        boxShadow: `0 0 6px ${color}`,
       }} />
-      <div style={{
-        position: 'fixed', left: trail.x, top: trail.y, zIndex: 9998,
+      <div ref={ringRef} style={{
+        position: 'fixed', left: -100, top: -100, zIndex: 9998,
         width: 30, height: 30,
         border: `1px solid ${color}`,
         borderRadius: '50%',
@@ -280,36 +321,34 @@ export default function HomePage() {
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [introVisible, setIntroVisible] = useState(true);
   const [introDone, setIntroDone] = useState(false);
+  const [formState, setFormState] = useState({ name: '', email: '', message: '' });
+  const [formSent, setFormSent] = useState(false);
 
+  const isTouch = useIsTouchDevice();
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef(null);
   const isHeroVisible = useInView(heroRef, { amount: 0.4 });
 
-  // 捲動進度條
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
-  // Intro：2 秒後淡出，2.8 秒後卸載
   useEffect(() => {
     const t1 = setTimeout(() => setIntroVisible(false), 2000);
     const t2 = setTimeout(() => setIntroDone(true), 2800);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
-  // Hero 影片控制
   useEffect(() => {
     if (!videoRef.current) return;
     if (isHeroVisible) videoRef.current.play().catch(() => { });
     else videoRef.current.pause();
   }, [isHeroVisible]);
 
-  // 選單鎖捲動
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
-  // Testimonial 輪播
   useEffect(() => {
     const t = setInterval(() => {
       setTestimonialIndex(i => (i + 1) % testimonials.length);
@@ -317,12 +356,22 @@ export default function HomePage() {
     return () => clearInterval(t);
   }, []);
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // 串接 EmailJS / Formspree 的位置
+    console.log('送出表單', formState);
+    setFormSent(true);
+    setTimeout(() => setFormSent(false), 4000);
+    setFormState({ name: '', email: '', message: '' });
+  };
+
   const isDark = darkMode;
   const bg = isDark ? 'bg-stone-950 text-stone-100' : 'bg-amber-50 text-stone-900';
   const navBg = isDark
     ? 'bg-stone-900/70 border-white/[0.12] hover:border-amber-500/30'
     : 'bg-white/85 border-stone-200 hover:border-amber-400/40';
   const altSection = isDark ? 'bg-stone-900/25' : 'bg-amber-100/25';
+  const cursorStyle = isTouch ? {} : { cursor: 'none' };
 
   return (
     <>
@@ -337,7 +386,7 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
             className="fixed inset-0 z-[200] flex items-center justify-center bg-stone-950"
             aria-hidden="true">
-            <div className="text-center">
+            <div className="text-center px-6">
               <motion.div
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
@@ -372,7 +421,7 @@ export default function HomePage() {
       <main
         className={`w-full min-h-screen font-serif relative overflow-x-hidden
                     selection:bg-amber-500/30 transition-colors duration-500 ${bg}`}
-        style={{ cursor: 'none' }}>
+        style={cursorStyle}>
 
         {/* 捲動進度條 */}
         <motion.div
@@ -397,14 +446,14 @@ export default function HomePage() {
         </div>
 
         {/* ── 導覽列 ───────────────────────────────────────────────────────── */}
-        <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[92%] max-w-6xl">
-          <div className={`flex justify-between items-center px-8 py-3.5 rounded-full
+        <nav className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-[100] w-[94%] max-w-6xl">
+          <div className={`flex justify-between items-center px-5 sm:px-8 py-3 sm:py-3.5 rounded-full
                           backdrop-blur-2xl border shadow-[0_8px_32px_rgba(0,0,0,0.15)]
                           transition-all duration-300 ${navBg}`}>
             <a href="#" className="flex items-center gap-2.5 group" aria-label="回到頂部">
               <div className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_10px_#fbbf24]
                               group-hover:scale-125 transition-transform" />
-              <span className={`${calligraphy} text-lg tracking-widest`}>娃娃古箏</span>
+              <span className={`${calligraphy} text-base sm:text-lg tracking-widest`}>娃娃古箏</span>
             </a>
 
             <div className="hidden lg:flex items-center gap-10">
@@ -419,21 +468,20 @@ export default function HomePage() {
               ))}
             </div>
 
-            <div className="flex items-center gap-4">
-              {/* 主題切換 */}
+            <div className="flex items-center gap-3">
               <button
                 onClick={() => setDarkMode(!isDark)}
                 className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full
                            border border-current opacity-30 hover:opacity-60
                            transition-opacity text-sm"
                 aria-label="切換明暗主題"
-                style={{ cursor: 'none' }}>
+                style={cursorStyle}>
                 {isDark ? '☀' : '☾'}
               </button>
 
               <MagneticButton
                 href="#contact"
-                className="hidden sm:block px-6 py-2 rounded-full text-[10px] tracking-[0.4em]
+                className="hidden sm:block px-5 sm:px-6 py-2 rounded-full text-[10px] tracking-[0.4em]
                            font-bold font-serif bg-amber-500 text-stone-950
                            hover:bg-amber-400 transition-colors duration-200
                            shadow-[0_0_16px_rgba(245,158,11,0.35)]">
@@ -442,10 +490,10 @@ export default function HomePage() {
 
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="lg:hidden flex flex-col gap-1.5 p-1"
+                className="lg:hidden flex flex-col gap-1.5 p-2 -mr-1"
                 aria-label="開啟選單"
                 aria-expanded={menuOpen}
-                style={{ cursor: 'none' }}>
+                style={cursorStyle}>
                 <motion.span animate={menuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
                   className="w-6 h-px bg-current block" />
                 <motion.span animate={menuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
@@ -463,7 +511,7 @@ export default function HomePage() {
             <video
               ref={videoRef}
               loop muted playsInline
-              preload="none"
+              preload="metadata"
               poster={`${sitePath}/hero-poster.jpg`}
               className="w-full h-full object-cover opacity-55 scale-[1.06]">
               <source src={`${sitePath}/hero-video.mp4`} type="video/mp4" />
@@ -471,26 +519,28 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/30 to-stone-950/55" />
           </div>
 
-          <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+          <div className="relative z-10 text-center px-6 max-w-4xl mx-auto w-full">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: introDone ? 0 : 2.2, duration: 1 }}>
 
-              <div className="inline-flex items-center gap-3 mb-14">
-                <div className="h-px w-12 bg-amber-500/50" />
-                <span className="text-[10px] tracking-[0.9em] text-amber-300/80 font-serif uppercase">
+              <div className="inline-flex items-center gap-3 mb-10 sm:mb-14">
+                <div className="h-px w-8 sm:w-12 bg-amber-500/50" />
+                <span className="text-[9px] sm:text-[10px] tracking-[0.6em] sm:tracking-[0.9em] text-amber-300/80 font-serif uppercase">
                   The Art of Guzheng
                 </span>
-                <div className="h-px w-12 bg-amber-500/50" />
+                <div className="h-px w-8 sm:w-12 bg-amber-500/50" />
               </div>
 
-              <div className="relative mb-10">
+              <div className="relative mb-8 sm:mb-10">
                 <div className="absolute -top-14 left-1/2 -translate-x-1/2 w-px h-10
-                                bg-gradient-to-b from-transparent via-amber-400/60 to-transparent" />
-                <h1 className={`${calligraphy} text-7xl md:text-9xl text-white`}>
+                                bg-gradient-to-b from-transparent via-amber-400/60 to-transparent
+                                hidden sm:block" />
+                {/* 手機：text-5xl → 桌機：text-9xl */}
+                <h1 className={`${calligraphy} text-5xl sm:text-7xl md:text-9xl text-white`}>
                   <RevealText text="弦鳴" delay={introDone ? 0.1 : 2.4} />
-                  <span className="text-amber-300 ml-4 relative inline-block">
+                  <span className="text-amber-300 ml-2 sm:ml-4 relative inline-block">
                     <RevealText text="墨韻" delay={introDone ? 0.25 : 2.55} />
                     <span className="absolute -bottom-2 left-0 w-full h-[2px]
                                      bg-gradient-to-r from-amber-400 via-amber-200/80 to-transparent
@@ -503,7 +553,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: introDone ? 0.4 : 2.7, duration: 0.8 }}
-                className="text-stone-300 text-base md:text-xl tracking-[0.6em] font-light mb-16 font-serif">
+                className="text-stone-300 text-sm sm:text-base md:text-xl tracking-[0.4em] sm:tracking-[0.6em] font-light mb-12 sm:mb-16 font-serif">
                 指尖清風 · 弦音故事
               </motion.p>
 
@@ -511,16 +561,16 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: introDone ? 0.55 : 2.85, duration: 0.8 }}
-                className="flex gap-10 justify-center items-center font-serif">
+                className="flex gap-8 sm:gap-10 justify-center items-center font-serif">
                 <a href="#works"
-                  className="group flex items-center gap-3 text-[11px] tracking-[0.5em] text-stone-200
+                  className="group flex items-center gap-2 sm:gap-3 text-[11px] tracking-[0.4em] sm:tracking-[0.5em] text-stone-200
                              border-b border-amber-500/40 pb-2
                              hover:text-amber-400 hover:border-amber-400 transition-all duration-300">
                   欣賞作品
                   <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </a>
                 <a href="#contact"
-                  className="group flex items-center gap-3 text-[11px] tracking-[0.5em] text-stone-400
+                  className="group flex items-center gap-2 sm:gap-3 text-[11px] tracking-[0.4em] sm:tracking-[0.5em] text-stone-400
                              border-b border-white/15 pb-2
                              hover:text-stone-200 hover:border-white/40 transition-all duration-300">
                   邀約洽談
@@ -530,33 +580,32 @@ export default function HomePage() {
             </motion.div>
           </div>
 
-          {/* 捲動提示 */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: introDone ? 1 : 3.2, duration: 1 }}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+            className="absolute bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
             <span className="text-[9px] tracking-[0.5em] text-stone-500 font-serif uppercase">Scroll</span>
             <div className="w-px h-8 bg-gradient-to-b from-stone-500 to-transparent animate-pulse" />
           </motion.div>
         </section>
 
         {/* ── 數字統計 ─────────────────────────────────────────────────────── */}
-        <section className={`py-20 px-6 ${altSection}`}>
+        <section className={`py-14 sm:py-20 px-6 ${altSection}`}>
           <motion.div
             variants={stagger}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
             {stats.map((s, i) => (
-              <motion.div key={i} variants={fadeUp} className="text-center group">
-                <div className={`${calligraphy} text-4xl md:text-5xl text-amber-400 mb-2`}>
+              <motion.div key={i} variants={fadeUp} className="text-center group py-2">
+                <div className={`${calligraphy} text-3xl sm:text-4xl md:text-5xl text-amber-400 mb-2`}>
                   <CountUp target={s.value} suffix={s.suffix} />
                 </div>
                 <div className="h-px w-8 bg-amber-500/30 mx-auto mb-3
                                 transition-all duration-300 group-hover:w-14 group-hover:bg-amber-400/60" />
-                <p className="text-sm tracking-[0.2em] opacity-50 font-serif">{s.label}</p>
+                <p className="text-xs sm:text-sm tracking-[0.2em] opacity-50 font-serif">{s.label}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -569,25 +618,26 @@ export default function HomePage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          className="py-40 px-6 max-w-7xl mx-auto relative">
-          <div className="absolute top-20 right-0 w-48 h-48 border-t border-r border-amber-500/[0.07] rounded-tr-[4rem] pointer-events-none" />
+          className="py-20 sm:py-40 px-6 max-w-7xl mx-auto relative">
+          <div className="absolute top-20 right-0 w-48 h-48 border-t border-r border-amber-500/[0.07] rounded-tr-[4rem] pointer-events-none hidden sm:block" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-            <ParallaxImage src={`${sitePath}/guzheng-portrait.jpg`} alt="古箏演奏者肖像" />
-            <div className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-20 items-center">
+            {/* 手機版圖片高度縮小 */}
+            <ParallaxImage src={`${sitePath}/guzheng-portrait.jpg`} alt="古箏演奏者肖像" height="h-[320px] sm:h-[520px]" />
+            <div className="space-y-6 sm:space-y-8">
               <div>
                 <p className="text-[10px] tracking-[0.6em] text-amber-400/70 font-serif uppercase mb-4">Philosophy</p>
-                <h2 className={`${calligraphy} text-5xl md:text-6xl ${isDark ? 'text-amber-50' : 'text-stone-800'}`}>
+                <h2 className={`${calligraphy} text-4xl sm:text-5xl md:text-6xl ${isDark ? 'text-amber-50' : 'text-stone-800'}`}>
                   藝術理念
                 </h2>
               </div>
               <LineDecorator />
-              <p className="leading-[2.4] text-lg font-light font-serif opacity-75">
+              <p className="leading-[2.2] sm:leading-[2.4] text-base sm:text-lg font-light font-serif opacity-75">
                 古箏之美，在於指尖與琴弦共鳴的瞬間。<br />
                 不僅是技術的傳承，更是心靈的修行，<br />
                 讓每一聲震動都成為與空間的對話。
               </p>
-              <p className="leading-[2.2] text-base font-light font-serif opacity-45">
+              <p className="leading-[2] sm:leading-[2.2] text-sm sm:text-base font-light font-serif opacity-45">
                 十餘年的演奏歷程，跨越古典與當代的邊界，
                 在每個音符之間尋找屬於當下的詮釋。
               </p>
@@ -596,32 +646,32 @@ export default function HomePage() {
         </motion.section>
 
         {/* ── 演奏歷程 ─────────────────────────────────────────────────────── */}
-        <section id="journey" className={`py-40 px-6 relative ${altSection}`}>
+        <section id="journey" className={`py-20 sm:py-40 px-6 relative ${altSection}`}>
           <div className="max-w-6xl mx-auto relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-28 items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-16 md:gap-28 items-center">
               <motion.div
                 variants={stagger}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 className="order-2 md:order-1">
-                <div className="mb-14">
+                <div className="mb-10 sm:mb-14">
                   <p className="text-[10px] tracking-[0.6em] text-amber-400/70 font-serif uppercase mb-4">Journey</p>
-                  <h2 className={`${calligraphy} text-5xl ${isDark ? 'text-amber-50' : 'text-stone-800'}`}>演奏歷程</h2>
+                  <h2 className={`${calligraphy} text-4xl sm:text-5xl ${isDark ? 'text-amber-50' : 'text-stone-800'}`}>演奏歷程</h2>
                   <LineDecorator />
                 </div>
-                <div className="relative pl-10 border-l border-amber-500/20 space-y-12">
+                <div className="relative pl-8 sm:pl-10 border-l border-amber-500/20 space-y-10 sm:space-y-12">
                   {journeyItems.map((item, idx) => (
                     <motion.div key={idx} variants={fadeUp} className="relative group">
-                      <div className="absolute -left-[41px] top-1 w-4 h-4 rotate-45
+                      <div className="absolute -left-[33px] sm:-left-[41px] top-1 w-4 h-4 rotate-45
                                       border border-amber-400/60 bg-stone-950
                                       group-hover:bg-amber-400 group-hover:border-amber-400
                                       transition-all duration-300
                                       group-hover:shadow-[0_0_12px_#fbbf24]" />
-                      <span className="block text-amber-400 text-sm tracking-[0.25em] font-bold font-serif mb-2">
+                      <span className="block text-amber-400 text-xs sm:text-sm tracking-[0.25em] font-bold font-serif mb-2">
                         {item.year}
                       </span>
-                      <p className="text-lg font-light font-serif leading-relaxed opacity-75
+                      <p className="text-base sm:text-lg font-light font-serif leading-relaxed opacity-75
                                     group-hover:opacity-100 transition-opacity duration-300">
                         {item.event}
                       </p>
@@ -630,7 +680,8 @@ export default function HomePage() {
                 </div>
               </motion.div>
 
-              <div className="order-1 md:order-2 relative group">
+              {/* 手機版隱藏裝飾性圖片，避免過度佔版面 */}
+              <div className="order-1 md:order-2 relative group hidden sm:block">
                 <div className="absolute -top-5 -right-5 w-24 h-24
                                 border-t-2 border-r-2 border-amber-500/40 rounded-tr-3xl
                                 transition-all duration-500 group-hover:-translate-y-1 group-hover:translate-x-1" />
@@ -647,16 +698,16 @@ export default function HomePage() {
         </section>
 
         {/* ── 精選作品 ─────────────────────────────────────────────────────── */}
-        <section id="works" className="py-40 px-6 relative">
+        <section id="works" className="py-20 sm:py-40 px-4 sm:px-6 relative">
           <div className="max-w-7xl mx-auto relative z-10">
             <motion.div
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="text-center mb-24">
+              className="text-center mb-14 sm:mb-24">
               <p className="text-[10px] tracking-[0.6em] text-amber-400/70 font-serif uppercase mb-4">Selected Works</p>
-              <h2 className={`${calligraphy} text-5xl md:text-6xl tracking-wider ${isDark ? 'text-amber-50' : 'text-stone-800'}`}>
+              <h2 className={`${calligraphy} text-4xl sm:text-5xl md:text-6xl tracking-wider ${isDark ? 'text-amber-50' : 'text-stone-800'}`}>
                 精選作品
               </h2>
               <div className="flex justify-center mt-6">
@@ -664,7 +715,13 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+            {/* 
+              排版邏輯：
+              - 全橫式影片：手機單欄、桌機雙欄
+              - 有短影音（直式 9:16）：手機雙欄並排、桌機三欄
+              - 本例混合：直接用統一 grid，短影音用 aspect-[9/16]
+            */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
               {works.map((work, i) => (
                 <motion.div
                   key={i}
@@ -673,19 +730,23 @@ export default function HomePage() {
                   whileInView="visible"
                   viewport={{ once: true }}
                   className="group relative">
-                  <div className="absolute -top-4 -left-4 w-12 h-12 border-t border-l border-amber-500/30
-                                  transition-all duration-500 group-hover:w-16 group-hover:h-16" />
-                  <div className="absolute -bottom-4 -right-4 w-12 h-12 border-b border-r border-amber-500/30
-                                  transition-all duration-500 group-hover:w-16 group-hover:h-16" />
+                  {/* 桌機才顯示角落裝飾，手機版省略避免 overflow */}
+                  <div className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 w-10 h-10 sm:w-12 sm:h-12
+                                  border-t border-l border-amber-500/30
+                                  transition-all duration-500 group-hover:w-16 group-hover:h-16 hidden sm:block" />
+                  <div className="absolute -bottom-3 -right-3 sm:-bottom-4 sm:-right-4 w-10 h-10 sm:w-12 sm:h-12
+                                  border-b border-r border-amber-500/30
+                                  transition-all duration-500 group-hover:w-16 group-hover:h-16 hidden sm:block" />
 
-                  <div className="relative aspect-video rounded-2xl overflow-hidden
+                  <div className={`relative ${work.isShort ? 'aspect-[9/16]' : 'aspect-video'}
+                                  rounded-xl sm:rounded-2xl overflow-hidden
                                   border border-white/[0.08] bg-stone-900
                                   shadow-xl shadow-stone-950/60
-                                  transition-transform duration-500 group-hover:-translate-y-1.5">
+                                  transition-transform duration-500 group-hover:-translate-y-1.5`}>
                     {work.id.startsWith('YOUTUBE') ? (
                       <div className="w-full h-full flex items-center justify-center bg-stone-900/80">
                         <div className="text-center space-y-3">
-                          <div className="w-14 h-14 rounded-full border border-amber-500/40
+                          <div className="w-12 sm:w-14 h-12 sm:h-14 rounded-full border border-amber-500/40
                                           flex items-center justify-center mx-auto">
                             <div className="w-0 h-0 border-t-[8px] border-b-[8px] border-l-[14px]
                                             border-transparent border-l-amber-400 ml-1" />
@@ -705,9 +766,9 @@ export default function HomePage() {
                     )}
                   </div>
 
-                  <div className="mt-6 text-center font-serif space-y-1">
-                    <p className="text-xs tracking-[0.4em] text-amber-400/60 uppercase">{work.title}</p>
-                    <h3 className={`${calligraphy} text-2xl opacity-75`}>{work.subtitle}</h3>
+                  <div className="mt-4 sm:mt-6 text-center font-serif space-y-1">
+                    <p className="text-[10px] sm:text-xs tracking-[0.4em] text-amber-400/60 uppercase">{work.title}</p>
+                    <h3 className={`${calligraphy} text-xl sm:text-2xl opacity-75`}>{work.subtitle}</h3>
                     <div className="h-px w-8 bg-amber-900/50 mx-auto mt-3
                                     transition-all duration-300 group-hover:w-14" />
                   </div>
@@ -715,10 +776,10 @@ export default function HomePage() {
               ))}
             </div>
 
-            <div className="mt-24 text-center">
+            <div className="mt-16 sm:mt-24 text-center">
               <a href={`https://www.youtube.com/@${instagramHandle}`}
                 target="_blank" rel="noopener noreferrer"
-                className={`${calligraphy} text-xl tracking-widest opacity-40 hover:opacity-80
+                className={`${calligraphy} text-lg sm:text-xl tracking-widest opacity-40 hover:opacity-80
                             hover:text-amber-400 transition-all duration-300 group inline-flex items-center gap-3`}>
                 聆聽更多，請訂閱頻道
                 <span className="text-base transition-transform duration-300 group-hover:translate-x-1">↗</span>
@@ -728,9 +789,9 @@ export default function HomePage() {
         </section>
 
         {/* ── 學員評價 ─────────────────────────────────────────────────────── */}
-        <section className={`py-32 px-6 overflow-hidden ${altSection}`}>
+        <section className={`py-20 sm:py-32 px-6 overflow-hidden ${altSection}`}>
           <div className="max-w-3xl mx-auto text-center">
-            <p className="text-[10px] tracking-[0.6em] text-amber-400/70 font-serif uppercase mb-16">Testimonials</p>
+            <p className="text-[10px] tracking-[0.6em] text-amber-400/70 font-serif uppercase mb-12 sm:mb-16">Testimonials</p>
 
             <AnimatePresence mode="wait">
               <motion.div
@@ -739,9 +800,9 @@ export default function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className="space-y-8">
-                <div className="text-5xl text-amber-400/20 font-serif leading-none select-none">"</div>
-                <p className="text-xl md:text-2xl font-light font-serif leading-[2] opacity-80">
+                className="space-y-6 sm:space-y-8">
+                <div className="text-4xl sm:text-5xl text-amber-400/20 font-serif leading-none select-none">"</div>
+                <p className="text-lg sm:text-xl md:text-2xl font-light font-serif leading-[1.9] sm:leading-[2] opacity-80">
                   {testimonials[testimonialIndex].quote}
                 </p>
                 <div>
@@ -755,13 +816,12 @@ export default function HomePage() {
               </motion.div>
             </AnimatePresence>
 
-            {/* 輪播點 */}
-            <div className="flex justify-center gap-3 mt-12">
+            <div className="flex justify-center gap-3 mt-10 sm:mt-12">
               {testimonials.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setTestimonialIndex(i)}
-                  style={{ cursor: 'none' }}
+                  style={cursorStyle}
                   className={`w-1.5 h-1.5 rotate-45 transition-all duration-300
                               ${i === testimonialIndex
                       ? 'bg-amber-400 shadow-[0_0_8px_#fbbf24] scale-125'
@@ -774,19 +834,19 @@ export default function HomePage() {
         </section>
 
         {/* ── Instagram 動態牆 ─────────────────────────────────────────────── */}
-        <section className="py-32 px-6">
+        <section className="py-20 sm:py-32 px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="text-center mb-14">
+              className="text-center mb-10 sm:mb-14">
               <p className="text-[10px] tracking-[0.6em] text-amber-400/70 font-serif uppercase mb-4">Follow Along</p>
               <a
                 href={`https://www.instagram.com/${instagramHandle}`}
                 target="_blank" rel="noopener noreferrer"
-                className={`${calligraphy} text-3xl md:text-4xl tracking-widest opacity-70
+                className={`${calligraphy} text-2xl sm:text-3xl md:text-4xl tracking-widest opacity-70
                             hover:opacity-100 hover:text-amber-400 transition-all duration-300`}>
                 @{instagramHandle}
               </a>
@@ -797,17 +857,19 @@ export default function HomePage() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="grid grid-cols-3 md:grid-cols-6 gap-2">
+              className="grid grid-cols-3 md:grid-cols-6 gap-1.5 sm:gap-2">
               {instagramPosts.map((post) => (
                 <motion.a
                   key={post.id}
                   variants={fadeIn}
                   href={`https://www.instagram.com/${instagramHandle}`}
                   target="_blank" rel="noopener noreferrer"
-                  className="relative aspect-square overflow-hidden rounded-lg group block">
+                  className="relative aspect-square overflow-hidden rounded-md sm:rounded-lg group block">
                   <img
                     src={post.image}
                     alt={post.alt}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover
                                grayscale-[30%] group-hover:grayscale-0
                                scale-100 group-hover:scale-110
@@ -821,9 +883,9 @@ export default function HomePage() {
         </section>
 
         {/* ── 聯絡邀約 ─────────────────────────────────────────────────────── */}
-        <section id="contact" className="py-40 px-6">
+        <section id="contact" className="py-20 sm:py-40 px-4 sm:px-6">
           <div className="max-w-4xl mx-auto">
-            <div className={`relative rounded-[3rem] p-12 md:p-20 overflow-hidden
+            <div className={`relative rounded-3xl sm:rounded-[3rem] p-8 sm:p-12 md:p-20 overflow-hidden
                             border shadow-2xl
                             ${isDark
                 ? 'bg-gradient-to-br from-stone-900/50 to-stone-950 border-white/[0.08] shadow-stone-950/60'
@@ -831,9 +893,9 @@ export default function HomePage() {
               <div className="absolute -top-16 -left-16 w-48 h-48 bg-amber-500/[0.07] blur-[80px] rounded-full pointer-events-none" />
               <div className="absolute -bottom-16 -right-16 w-48 h-48 bg-amber-700/[0.05] blur-[80px] rounded-full pointer-events-none" />
 
-              <div className="text-center mb-16 relative">
+              <div className="text-center mb-10 sm:mb-16 relative">
                 <p className="text-[10px] tracking-[0.6em] text-amber-400/70 font-serif uppercase mb-4">Contact</p>
-                <h2 className={`${calligraphy} text-5xl md:text-6xl tracking-wider ${isDark ? 'text-amber-50' : 'text-stone-800'}`}>
+                <h2 className={`${calligraphy} text-4xl sm:text-5xl md:text-6xl tracking-wider ${isDark ? 'text-amber-50' : 'text-stone-800'}`}>
                   聯絡邀約
                 </h2>
                 <div className="flex justify-center mt-6">
@@ -842,31 +904,52 @@ export default function HomePage() {
               </div>
 
               <form
-                action="#"
-                onSubmit={(e) => e.preventDefault()}
-                className="space-y-12 max-w-xl mx-auto font-serif relative z-10">
-                {[
-                  { id: 'name', type: 'text', label: '姓名', placeholder: '您的姓名' },
-                  { id: 'email', type: 'email', label: '電子郵件', placeholder: 'your@email.com' },
-                ].map((field) => (
-                  <div key={field.id} className="relative">
-                    <label htmlFor={field.id}
-                      className="block text-[10px] tracking-[0.4em] text-amber-400/60 uppercase mb-3">
-                      {field.label}
-                    </label>
-                    <input
-                      id={field.id}
-                      type={field.type}
-                      placeholder={field.placeholder}
-                      className="w-full bg-transparent border-b border-current py-4 outline-none
-                                 text-lg placeholder:opacity-20 opacity-75
-                                 focus:border-amber-400 focus:opacity-100
-                                 transition-all duration-300 peer" />
-                    <div className="absolute bottom-0 left-0 w-0 h-px bg-amber-400
-                                    transition-all duration-500 peer-focus:w-full shadow-[0_0_8px_#f59e0b]" />
-                  </div>
-                ))}
+                onSubmit={handleSubmit}
+                className="space-y-10 sm:space-y-12 max-w-xl mx-auto font-serif relative z-10">
 
+                {/* 姓名 */}
+                <div className="relative">
+                  <label htmlFor="name"
+                    className="block text-[10px] tracking-[0.4em] text-amber-400/60 uppercase mb-3">
+                    姓名
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    required
+                    value={formState.name}
+                    onChange={e => setFormState(s => ({ ...s, name: e.target.value }))}
+                    placeholder="您的姓名"
+                    className="w-full bg-transparent border-b border-current py-4 outline-none
+                               text-base sm:text-lg placeholder:opacity-20 opacity-75
+                               focus:border-amber-400 focus:opacity-100
+                               transition-all duration-300 peer" />
+                  <div className="absolute bottom-0 left-0 w-0 h-px bg-amber-400
+                                  transition-all duration-500 peer-focus:w-full shadow-[0_0_8px_#f59e0b]" />
+                </div>
+
+                {/* Email */}
+                <div className="relative">
+                  <label htmlFor="email"
+                    className="block text-[10px] tracking-[0.4em] text-amber-400/60 uppercase mb-3">
+                    電子郵件
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    required
+                    value={formState.email}
+                    onChange={e => setFormState(s => ({ ...s, email: e.target.value }))}
+                    placeholder="your@email.com"
+                    className="w-full bg-transparent border-b border-current py-4 outline-none
+                               text-base sm:text-lg placeholder:opacity-20 opacity-75
+                               focus:border-amber-400 focus:opacity-100
+                               transition-all duration-300 peer" />
+                  <div className="absolute bottom-0 left-0 w-0 h-px bg-amber-400
+                                  transition-all duration-500 peer-focus:w-full shadow-[0_0_8px_#f59e0b]" />
+                </div>
+
+                {/* 需求說明 */}
                 <div className="relative">
                   <label htmlFor="message"
                     className="block text-[10px] tracking-[0.4em] text-amber-400/60 uppercase mb-3">
@@ -875,32 +958,56 @@ export default function HomePage() {
                   <textarea
                     id="message"
                     rows={4}
+                    required
+                    value={formState.message}
+                    onChange={e => setFormState(s => ({ ...s, message: e.target.value }))}
                     placeholder="演出日期、地點、活動類型…"
                     className="w-full bg-transparent border-b border-current py-4 outline-none
-                               text-lg placeholder:opacity-20 opacity-75
+                               text-base sm:text-lg placeholder:opacity-20 opacity-75
                                focus:border-amber-400 focus:opacity-100
                                transition-all duration-300 resize-none peer" />
                   <div className="absolute bottom-0 left-0 w-0 h-px bg-amber-400
                                   transition-all duration-500 peer-focus:w-full shadow-[0_0_8px_#f59e0b]" />
                 </div>
 
-                <MagneticButton
-                  className="w-full py-6 rounded-full font-bold text-[11px] tracking-[0.5em] font-serif
-                             bg-amber-500 text-stone-950 text-center
-                             hover:bg-amber-400 active:scale-[0.98]
-                             transition-all duration-200
-                             shadow-[0_0_24px_rgba(245,158,11,0.3)]
-                             hover:shadow-[0_0_36px_rgba(245,158,11,0.45)]">
-                  SEND MESSAGE / 傳送訊息
-                </MagneticButton>
+                <AnimatePresence mode="wait">
+                  {formSent ? (
+                    <motion.div
+                      key="sent"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="w-full py-5 sm:py-6 rounded-full text-center
+                                 border border-amber-500/40 text-amber-400
+                                 text-[11px] tracking-[0.5em] font-serif">
+                      ✓ 訊息已送出，感謝您的聯繫
+                    </motion.div>
+                  ) : (
+                    <motion.div key="button" initial={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                      <MagneticButton
+                        onClick={() => {
+                          const form = document.querySelector('form');
+                          form?.requestSubmit();
+                        }}
+                        className="w-full py-5 sm:py-6 rounded-full font-bold text-[11px] tracking-[0.5em] font-serif
+                                   bg-amber-500 text-stone-950 text-center
+                                   hover:bg-amber-400 active:scale-[0.98]
+                                   transition-all duration-200
+                                   shadow-[0_0_24px_rgba(245,158,11,0.3)]
+                                   hover:shadow-[0_0_36px_rgba(245,158,11,0.45)]">
+                        SEND MESSAGE / 傳送訊息
+                      </MagneticButton>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </form>
             </div>
           </div>
         </section>
 
         {/* ── 頁尾 ─────────────────────────────────────────────────────────── */}
-        <footer className={`py-20 text-center border-t ${isDark ? 'border-white/[0.05]' : 'border-stone-200'}`}>
-          <h3 className={`${calligraphy} text-3xl text-amber-500/60 mb-6`}>娃娃古箏工作室</h3>
+        <footer className={`py-16 sm:py-20 text-center border-t ${isDark ? 'border-white/[0.05]' : 'border-stone-200'}`}>
+          <h3 className={`${calligraphy} text-2xl sm:text-3xl text-amber-500/60 mb-6`}>娃娃古箏工作室</h3>
           <div className="flex justify-center mb-6">
             <div className="h-px w-16 bg-amber-900/40" />
           </div>
@@ -918,19 +1025,29 @@ export default function HomePage() {
               exit={{ opacity: 0, x: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 200 }}
               className="fixed inset-0 z-[120] bg-stone-950/98 backdrop-blur-3xl
-                         flex flex-col items-center justify-center p-12"
+                         flex flex-col items-center justify-center p-8 sm:p-12"
               role="dialog"
               aria-modal="true"
               aria-label="導覽選單">
               <button
                 onClick={() => setMenuOpen(false)}
-                style={{ cursor: 'none' }}
-                className="absolute top-10 right-10 text-[10px] tracking-[0.4em]
-                           text-stone-400 hover:text-white transition-colors font-serif uppercase"
+                style={cursorStyle}
+                className="absolute top-8 right-8 sm:top-10 sm:right-10 text-[10px] tracking-[0.4em]
+                           text-stone-400 hover:text-white transition-colors font-serif uppercase
+                           p-2"
                 aria-label="關閉選單">
                 Close ✕
               </button>
-              <nav className="flex flex-col items-center gap-12">
+
+              {/* 手機：預約演出按鈕放進選單 */}
+              <a href="#contact"
+                onClick={() => setMenuOpen(false)}
+                className="sm:hidden mb-8 px-8 py-3 rounded-full text-[11px] tracking-[0.4em]
+                           font-bold font-serif bg-amber-500 text-stone-950">
+                預約演出
+              </a>
+
+              <nav className="flex flex-col items-center gap-8 sm:gap-12">
                 {navLinks.map((link, i) => (
                   <motion.a
                     key={link.id}
@@ -939,16 +1056,25 @@ export default function HomePage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.08, duration: 0.5 }}
-                    className={`${calligraphy} text-5xl text-stone-200 hover:text-amber-400 transition-colors duration-300`}>
+                    className={`${calligraphy} text-4xl sm:text-5xl text-stone-200 hover:text-amber-400 transition-colors duration-300`}>
                     {link.name}
                   </motion.a>
                 ))}
               </nav>
+
+              {/* 手機：主題切換放進選單 */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
+                className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
+                <button
+                  onClick={() => setDarkMode(!isDark)}
+                  className="sm:hidden flex items-center justify-center w-8 h-8 rounded-full
+                             border border-white/20 text-sm text-white/40"
+                  aria-label="切換明暗主題">
+                  {isDark ? '☀ 切換亮色' : '☾ 切換暗色'}
+                </button>
                 <div className="h-px w-12 bg-amber-500/50" />
                 <p className="text-stone-600 text-[9px] tracking-[0.4em] font-serif uppercase">娃娃古箏工作室</p>
               </motion.div>

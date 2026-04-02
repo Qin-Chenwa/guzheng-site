@@ -39,8 +39,8 @@ const journeyItems = [
 
 // 替換為真實 YouTube 影片 ID
 const works = [
-  { id: "YOUTUBE_ID_1", title: "演奏曲目 01", subtitle: "高山流水" },
-  { id: "YOUTUBE_ID_2", title: "演奏曲目 02", subtitle: "漁舟唱晚" },
+  { id: "8YYcHynEovc", title: "演奏曲目 01", subtitle: "高山流水" },
+  { id: "W_oJ0lELEOw", title: "演奏曲目 02", subtitle: "漁舟唱晚" },
 ];
 
 const testimonials = [
@@ -663,7 +663,7 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-14 md:gap-20">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
               {works.map((work, i) => (
                 <motion.div
                   key={i}

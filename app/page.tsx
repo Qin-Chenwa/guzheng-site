@@ -539,80 +539,96 @@ export default function HomePage() {
                 <div className="h-px w-8 sm:w-12 bg-amber-500/50" />
               </div>
 
-              <div className="relative mb-12 sm:mb-16 flex flex-col items-center">
-                {/* 頂部裝飾線：保留極簡線條感 */}
-                <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-px h-12
-                  bg-gradient-to-b from-transparent via-amber-400/50 to-transparent
-                  hidden sm:block" />
 
-                {/* 古典剪紙 Logo 容器 */}
-                <div className="relative group">
-                  {/* 背景透光感 (深層光暈) */}
-                  <div className="absolute inset-0 bg-amber-600/10 blur-[100px] rounded-full scale-150 opacity-60" />
+              <div className="relative mb-12 flex flex-col items-center justify-center">
+                {/* 背景深邃光暈 */}
+                <div className="absolute inset-0 bg-amber-900/10 blur-[120px] rounded-full opacity-40" />
 
-                  {/* Logo 圖形區 */}
-                  <div className="relative z-10 w-64 h-64 sm:w-80 sm:h-80 md:w-[400px] md:h-[400px]">
-                    <svg
-                      viewBox="0 0 200 200"
-                      fill="none"
-                      xmlns="http://w3.org"
-                      className="w-full h-full drop-shadow-[0_0_25px_rgba(245,158,11,0.5)]"
-                    >
-                      {/* 外圈：太鼓圓框 (剪紙鏤空裝飾) */}
-                      <circle cx="100" cy="100" r="92" stroke="#f59e0b" strokeWidth="1.5" strokeDasharray="12 4" opacity="0.6" />
-                      <circle cx="100" cy="100" r="84" stroke="#fbbf24" strokeWidth="0.5" />
+                <div className="relative z-10 w-72 h-72 sm:w-96 sm:h-96 md:w-[500px] md:h-[500px]">
+                  <svg
+                    viewBox="0 0 200 200"
+                    fill="none"
+                    xmlns="http://w3.org"
+                    className="w-full h-full drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+                  >
+                    {/* 1. 太鼓圓框：極簡且有質感 */}
+                    <circle cx="100" cy="100" r="85" stroke="url(#goldGradient)" strokeWidth="0.8" opacity="0.3" />
+                    <path
+                      d="M30 100 A70 70 0 0 1 170 100"
+                      stroke="url(#goldGradient)" strokeWidth="2" strokeLinecap="round" opacity="0.8"
+                    />
+                    {/* 減量後的虛線點綴：只裝飾在左上方 */}
+                    <path d="M40 60 A80 80 0 0 1 80 30" stroke="#fbbf24" strokeWidth="1" strokeDasharray="10 15" opacity="0.3" />
 
-                      {/* 內層裝飾：祥雲/波浪 (象徵音律流動) */}
-                      <path d="M50 140 Q100 160 150 140" stroke="#f59e0b" strokeWidth="0.5" opacity="0.4" />
-                      <path d="M60 150 Q100 165 140 150" stroke="#f59e0b" strokeWidth="0.5" opacity="0.2" />
-
-                      {/* 古箏主體 (橫向優雅弧線) */}
+                    {/* 2. 古箏主體：線條延展並衝破圓框 */}
+                    <g className="animate-pulse-slow">
                       <path
-                        d="M35 95 Q100 80 165 95 L160 115 Q100 130 40 115 Z"
-                        fill="#f59e0b"
-                        fillOpacity="0.2"
+                        d="M15 90 C60 70 140 70 185 90 L180 110 C140 125 60 125 20 110 Z"
+                        fill="url(#bodyGradient)"
                         stroke="#fbbf24"
-                        strokeWidth="1.5"
+                        strokeWidth="1"
                       />
-
-                      {/* 琴弦 (細緻如音符連線) */}
-                      {[...Array(6)].map((_, i) => (
-                        <line
+                      {/* 琴弦：細緻的流動線條 */}
+                      {[...Array(5)].map((_, i) => (
+                        <path
                           key={i}
-                          x1="45" y1={100 + i * 3.5} x2="155" y2={100 + i * 3.5}
-                          stroke="white" strokeWidth="0.4" strokeOpacity="0.6"
+                          d={`M25 ${96 + i * 3} Q100 ${90 + i * 3} 175 ${96 + i * 3}`}
+                          stroke="white" strokeWidth="0.3" strokeOpacity="0.4"
                         />
                       ))}
+                    </g>
 
-                      {/* 🥁 新增：鼓棒元素 (斜向交叉，像是指揮棒也像音符柄) */}
-                      <g className="drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
-                        {/* 左斜鼓棒 */}
-                        <rect x="110" y="45" width="4" height="85" rx="2" transform="rotate(35 110 45)" fill="url(#stickGradient)" />
-                        {/* 右斜鼓棒 */}
-                        <rect x="85" y="48" width="4" height="85" rx="2" transform="rotate(-35 85 48)" fill="url(#stickGradient)" />
+                    {/* 3. 右下角：鼓棒與音符的靈魂結合 */}
+                    <g transform="translate(130, 110)">
+                      {/* 鼓棒轉化為大音符的符桿 */}
+                      <rect
+                        x="15" y="-10" width="3" height="65" rx="1.5"
+                        transform="rotate(-15)"
+                        fill="url(#goldGradient)"
+                        className="drop-shadow-[0_0_10px_#f59e0b]"
+                      />
+                      <rect
+                        x="28" y="-5" width="3" height="55" rx="1.5"
+                        transform="rotate(-15)"
+                        fill="url(#goldGradient)"
+                        opacity="0.7"
+                      />
 
-                        {/* 鼓棒頭部裝飾 (點狀，增加音符感) */}
-                        <circle cx="158" cy="100" r="3.5" fill="#fbbf24" />
-                        <circle cx="42" cy="102" r="3.5" fill="#fbbf24" />
-                      </g>
+                      {/* 音符頭部：巨大的琥珀色寶石質感，與古箏末端重合 */}
+                      <circle cx="10" cy="50" r="10" fill="url(#noteGradient)" className="animate-bounce-slow" />
+                      <circle cx="25" cy="45" r="7" fill="url(#noteGradient)" opacity="0.6" />
 
-                      {/* 漸層定義 */}
-                      <defs>
-                        <linearGradient id="stickGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#fbbf24" />
-                          <stop offset="100%" stopColor="#d97706" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                  </div>
+                      {/* 連接音符的符尾：毛筆撇筆線條 */}
+                      <path
+                        d="M15 -5 Q40 0 45 30"
+                        stroke="#fbbf24" strokeWidth="4" strokeLinecap="round" fill="none"
+                        className="drop-shadow-[0_0_5px_rgba(251,191,36,0.5)]"
+                      />
+                    </g>
 
-                  {/* 底部裝飾橫線：取代文字，強化中心點 */}
-                  <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-48 h-[2px]
-                    bg-gradient-to-r from-transparent via-amber-400/60 to-transparent
-                    shadow-[0_0_15px_#f59e0b]" />
+                    {/* 漸層定義 */}
+                    <defs>
+                      <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#fbbf24" />
+                        <stop offset="50%" stopColor="#f59e0b" />
+                        <stop offset="100%" stopColor="#b45309" />
+                      </linearGradient>
+                      <radialGradient id="noteGradient" cx="30%" cy="30%" r="100%">
+                        <stop offset="0%" stopColor="#fef3c7" />
+                        <stop offset="100%" stopColor="#f59e0b" />
+                      </radialGradient>
+                      <linearGradient id="bodyGradient" x1="0%" y1="50%" x2="100%" y2="50%">
+                        <stop offset="0%" stopColor="transparent" />
+                        <stop offset="50%" stopColor="rgba(245,158,11,0.2)" />
+                        <stop offset="100%" stopColor="transparent" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
                 </div>
-              </div>
 
+                {/* 底部書法感長橫線 */}
+                <div className="absolute bottom-4 w-64 h-px bg-gradient-to-r from-transparent via-amber-400/40 to-transparent shadow-[0_0_20px_#fbbf24]" />
+              </div>
 
 
 

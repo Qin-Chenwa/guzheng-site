@@ -40,7 +40,7 @@ const journeyItems = [
 const works = [
   { id: "8YYcHynEovc", title: "", subtitle: "TESLA MODEL 3 新車發表會跨界演出", isShort: true },
   { id: "W_oJ0lELEOw", title: "", subtitle: "江蕙《無·有》小巨蛋演唱會古箏演奏", isShort: true },
-  { id: "KWO_UX5Yr_U", title: "", subtitle: "企業私人莊園古箏現場演奏", isShort: true },
+  { id: "2PF3hbn8fno", title: "", subtitle: "企業私人莊園古箏現場演奏", isShort: false },
 ];
 
 const testimonials = [

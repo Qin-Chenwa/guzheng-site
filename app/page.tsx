@@ -630,27 +630,6 @@ export default function HomePage() {
                       strokeDasharray="3 10" opacity="0.18" />
 
                     {/* ── 中央：TG 主體 ──────────────────────────── */}
-                    {/* T */}
-                    <text
-                      x="246" y="265"
-                      fontFamily="Georgia, 'Times New Roman', serif"
-                      fontSize="195"
-                      fontWeight="300"
-                      fontStyle="italic"
-                      letterSpacing="-6"
-                      fill="#fef3c7"
-                      opacity="0.93"
-                    >T</text>
-                    {/* G — 向左偏移讓兩字相融 */}
-                    <text
-                      x="358" y="265"
-                      fontFamily="Georgia, 'Times New Roman', serif"
-                      fontSize="195"
-                      fontWeight="300"
-                      fontStyle="italic"
-                      fill="#fef3c7"
-                      opacity="0.93"
-                    >G</text>
 
                     {/* 琴弦橫貫 TG — 三根細金線象徵琴弦穿越字母 */}
                     <line x1="226" y1="152" x2="568" y2="152"

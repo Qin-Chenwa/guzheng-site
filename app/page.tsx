@@ -554,7 +554,7 @@ export default function HomePage() {
               <div className="inline-flex items-center gap-3 mb-10 sm:mb-14">
                 <div className="h-px w-8 sm:w-12 bg-amber-500/50" />
                 <span className="text-[9px] sm:text-[10px] tracking-[0.6em] sm:tracking-[0.9em] text-amber-300/80 font-serif uppercase">
-                  The Art of Guzheng
+                  The Art of Guzheng & Drum
                 </span>
                 <div className="h-px w-8 sm:w-12 bg-amber-500/50" />
               </div>

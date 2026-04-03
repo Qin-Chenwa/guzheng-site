@@ -562,12 +562,6 @@ export default function HomePage() {
 
 
 
-              {/* ── 底部文字 ───────────────────────────────── */}
-              <text x="340" y="320" textAnchor="middle" fontFamily="Georgia, serif" fontSize="12.5" fontWeight="300" letterSpacing="9" fill="#d97706" opacity="0.8">
-                TAIKO <tspan dx="20" dy="-2">·</tspan> <tspan dx="20">GUZHENG</tspan>
-              </text>
-
-
 
 
               <motion.p

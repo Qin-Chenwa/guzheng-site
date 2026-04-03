@@ -561,101 +561,195 @@ export default function HomePage() {
 
 
               <div className="relative mb-24 flex flex-col items-center justify-center overflow-visible">
-                {/* 背景：極簡空靈光暈 */}
+                {/* 背景光暈 */}
                 <div className="absolute inset-0 bg-amber-500/5 blur-[180px] rounded-full opacity-30" />
 
                 <div className="relative z-10 w-full max-w-[850px] h-[350px]">
                   <svg
-                    viewBox="0 0 400 150"
+                    viewBox="0 0 680 340"
                     fill="none"
-                    xmlns="http://w3.org"
+                    xmlns="http://www.w3.org/2000/svg"
                     className="w-full h-full"
                   >
                     <defs>
-                      {/* 書法絲綢漸層 - 模擬金屬絲線與水墨結合 */}
-                      <linearGradient id="silkInk" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <linearGradient id="inkGold" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#78350f" stopOpacity="0" />
-                        <stop offset="20%" stopColor="#fbbf24" stopOpacity="0.8" />
-                        <stop offset="50%" stopColor="#fff" stopOpacity="1" />
-                        <stop offset="80%" stopColor="#fbbf24" stopOpacity="0.8" />
+                        <stop offset="25%" stopColor="#fbbf24" stopOpacity="0.7" />
+                        <stop offset="50%" stopColor="#fef3c7" stopOpacity="1" />
+                        <stop offset="75%" stopColor="#fbbf24" stopOpacity="0.7" />
                         <stop offset="100%" stopColor="#78350f" stopOpacity="0" />
                       </linearGradient>
-
-                      {/* 渲染柔光濾鏡 */}
-                      <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="1.2" result="blur" />
-                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                      </filter>
+                      <linearGradient id="inkGoldV" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.6" />
+                        <stop offset="100%" stopColor="#78350f" stopOpacity="0.1" />
+                      </linearGradient>
                     </defs>
 
-                    {/* 1. 太鼓意象 (左側 Taiko) */}
-                    <g filter="url(#softGlow)" opacity="0.8">
-                      {/* T 的草寫：大氣的橫撇，象徵鼓聲的發散 */}
-                      <path
-                        d="M30 65 C80 50 140 55 160 65"
-                        stroke="url(#silkInk)" strokeWidth="5" strokeLinecap="round"
+                    {/* ── 左側：太鼓 ──────────────────────────────── */}
+                    {/* 鼓身外框 */}
+                    <ellipse cx="112" cy="168" rx="74" ry="90"
+                      stroke="url(#inkGold)" strokeWidth="0.8" fill="rgba(251,191,36,0.02)" />
+                    {/* 鼓面主圓 */}
+                    <ellipse cx="112" cy="168" rx="50" ry="50"
+                      stroke="url(#inkGold)" strokeWidth="1.8" fill="none" />
+                    {/* 鼓面內圓紋 */}
+                    <ellipse cx="112" cy="168" rx="38" ry="38"
+                      stroke="#fbbf24" strokeWidth="0.5" fill="none" opacity="0.25" />
+                    <ellipse cx="112" cy="168" rx="24" ry="24"
+                      stroke="#fbbf24" strokeWidth="0.3" fill="none" opacity="0.15" />
+                    {/* 鼓釘 × 8 */}
+                    {[0, 1, 2, 3, 4, 5, 6, 7].map(i => {
+                      const angle = (i * Math.PI * 2) / 8 - Math.PI / 2;
+                      return (
+                        <circle
+                          key={i}
+                          cx={112 + Math.cos(angle) * 52}
+                          cy={168 + Math.sin(angle) * 52}
+                          r="2.8"
+                          fill="#d97706"
+                          opacity="0.85"
+                        />
+                      );
+                    })}
+                    {/* 鼓槌左 */}
+                    <line x1="58" y1="116" x2="90" y2="148"
+                      stroke="#92400e" strokeWidth="3.5" strokeLinecap="round" opacity="0.6" />
+                    <circle cx="54" cy="112" r="8"
+                      stroke="#92400e" strokeWidth="1.5" fill="none" opacity="0.6" />
+                    {/* 鼓槌右 */}
+                    <line x1="166" y1="116" x2="134" y2="148"
+                      stroke="#92400e" strokeWidth="3.5" strokeLinecap="round" opacity="0.6" />
+                    <circle cx="170" cy="112" r="8"
+                      stroke="#92400e" strokeWidth="1.5" fill="none" opacity="0.6" />
+                    {/* 鼓聲散射弧線 */}
+                    <path d="M62 228 Q112 258 162 228"
+                      stroke="#fbbf24" strokeWidth="0.6" fill="none"
+                      strokeDasharray="4 8" opacity="0.3" />
+                    <path d="M44 240 Q112 278 180 240"
+                      stroke="#fbbf24" strokeWidth="0.4" fill="none"
+                      strokeDasharray="3 10" opacity="0.18" />
+
+                    {/* ── 中央：TG 主體 ──────────────────────────── */}
+                    {/* T */}
+                    <text
+                      x="246" y="265"
+                      fontFamily="Georgia, 'Times New Roman', serif"
+                      fontSize="195"
+                      fontWeight="300"
+                      fontStyle="italic"
+                      letterSpacing="-6"
+                      fill="#fef3c7"
+                      opacity="0.93"
+                    >T</text>
+                    {/* G — 向左偏移讓兩字相融 */}
+                    <text
+                      x="358" y="265"
+                      fontFamily="Georgia, 'Times New Roman', serif"
+                      fontSize="195"
+                      fontWeight="300"
+                      fontStyle="italic"
+                      fill="#fef3c7"
+                      opacity="0.93"
+                    >G</text>
+
+                    {/* 琴弦橫貫 TG — 三根細金線象徵琴弦穿越字母 */}
+                    <line x1="226" y1="152" x2="568" y2="152"
+                      stroke="url(#inkGold)" strokeWidth="1.0" opacity="0.55" />
+                    <line x1="226" y1="161" x2="568" y2="161"
+                      stroke="url(#inkGold)" strokeWidth="0.6" opacity="0.35" />
+                    <line x1="226" y1="170" x2="568" y2="170"
+                      stroke="url(#inkGold)" strokeWidth="0.4" opacity="0.20" />
+
+                    {/* 書法連綿氣韻線 */}
+                    <path d="M310 82 Q340 180 380 140 Q410 105 440 168"
+                      stroke="#fbbf24" strokeWidth="0.5"
+                      fill="none" strokeDasharray="2 14" opacity="0.22" />
+
+                    {/* ── 右側：古箏 ──────────────────────────────── */}
+                    {/* 琴身輪廓（梯形） */}
+                    <path d="M530 118 L620 132 L620 242 L530 258"
+                      stroke="url(#inkGold)" strokeWidth="1.5" fill="rgba(251,191,36,0.02)"
+                      strokeLinejoin="round" />
+                    {/* 7 根琴弦 */}
+                    {[0, 1, 2, 3, 4, 5, 6].map(i => (
+                      <line
+                        key={i}
+                        x1="530" y1={134 + i * 16.5}
+                        x2="620" y2={142 + i * 14}
+                        stroke="#fbbf24"
+                        strokeWidth="0.7"
+                        opacity={0.75 - i * 0.06}
                       />
-                      {/* 太鼓共鳴圓弧：透亮的細線圓框 */}
-                      <circle cx="85" cy="85" r="50" stroke="url(#silkInk)" strokeWidth="0.5" strokeDasharray="15 20" opacity="0.3" />
-                      <circle cx="85" cy="85" r="42" stroke="white" strokeWidth="0.2" opacity="0.2" />
-
-                      {/* Taiko 草寫文字 */}
-                      <text x="55" y="100" className={`${calligraphy} fill-white/80 text-[52px] font-thin italic`}>
-                        T<tspan className="text-[12px] fill-amber-200/40 tracking-[0.4em] font-light">aiko</tspan>
-                      </text>
-                    </g>
-
-                    {/* 2. 古箏意象 (右側 Guzheng) */}
-                    <g filter="url(#softGlow)">
-                      {/* G 的草寫主線：優雅延伸成古箏的琴身輪廓 */}
-                      <path
-                        d="M130 95 C180 70 280 70 340 85 L335 105 C280 125 180 120 135 100"
-                        stroke="url(#silkInk)" strokeWidth="1.2" strokeLinecap="round" fill="rgba(251,191,36,0.03)"
-                      />
-
-                      {/* 🎹 琴碼 (雁柱)：精緻的三角形，呈弧形排列在左側 1/3 下方 */}
-                      {[...Array(7)].map((_, i) => (
+                    ))}
+                    {/* 雁柱（琴碼）× 7 — 沿第一根弦排列 */}
+                    {[0, 1, 2, 3, 4, 5, 6].map(i => {
+                      const bx = 545 + i * 11;
+                      const by = 133 + i * 1.2;
+                      return (
                         <path
                           key={i}
-                          d={`M${155 + i * 15} 112 L${160 + i * 15} 98 L${165 + i * 15} 112`}
-                          stroke="#fbbf24" strokeWidth="0.6" fill="none" opacity="0.6"
+                          d={`M${bx - 4} ${by + 8} L${bx} ${by - 2} L${bx + 4} ${by + 8}`}
+                          stroke="#d97706" strokeWidth="0.9" fill="none" opacity="0.8"
                         />
-                      ))}
+                      );
+                    })}
 
-                      {/* 琴弦：如女性髮絲般纖細，透光而靈動 */}
-                      {[...Array(6)].map((_, i) => (
-                        <path
-                          key={i}
-                          d={`M140 ${98 + i * 3.5} Q220 ${88 + i * 3.5} 335 ${98 + i * 3.5}`}
-                          stroke="white" strokeWidth="0.2" strokeOpacity={0.4 - (i * 0.05)}
-                        />
-                      ))}
+                    {/* ── 女性手指撥弦 ── */}
+                    {/* 手腕 */}
+                    <path d="M614 308 Q634 292 642 268 Q648 250 638 235"
+                      stroke="#92400e" strokeWidth="2.2" fill="none"
+                      strokeLinecap="round" opacity="0.55" />
+                    {/* 食指（撥弦） */}
+                    <path d="M638 235 Q644 216 634 200"
+                      stroke="#92400e" strokeWidth="2" fill="none"
+                      strokeLinecap="round" opacity="0.58" />
+                    {/* 中指 */}
+                    <path d="M643 244 Q651 226 644 210"
+                      stroke="#92400e" strokeWidth="1.8" fill="none"
+                      strokeLinecap="round" opacity="0.46" />
+                    {/* 無名指 */}
+                    <path d="M648 254 Q654 238 650 224"
+                      stroke="#92400e" strokeWidth="1.6" fill="none"
+                      strokeLinecap="round" opacity="0.35" />
+                    {/* 食指指甲 */}
+                    <ellipse cx="634" cy="198" rx="4" ry="6"
+                      transform="rotate(-18 634 198)"
+                      stroke="#d97706" strokeWidth="0.9" fill="none" opacity="0.75" />
+                    {/* 撥弦漣漪 */}
+                    <path d="M634 200 Q618 196 608 202 Q598 208 600 216"
+                      stroke="#fbbf24" strokeWidth="0.7" fill="none"
+                      strokeDasharray="3 5" opacity="0.4" />
 
-                      {/* Guzheng 草寫文字 */}
-                      <text x="135" y="100" className={`${calligraphy} fill-white text-[58px] font-extralight tracking-tighter`}>
-                        G<tspan className="text-[12px] fill-amber-200/40 tracking-[0.4em] font-light">uzheng</tspan>
-                      </text>
-                    </g>
+                    {/* ── 底部文字 ───────────────────────────────── */}
+                    <line x1="246" y1="296" x2="568" y2="296"
+                      stroke="url(#inkGold)" strokeWidth="0.5" opacity="0.35" />
 
-                    {/* 3. 書法連綿線：象徵氣韻流轉 */}
-                    <path
-                      d="M100 65 Q130 140 180 110"
-                      stroke="url(#silkInk)" strokeWidth="0.5" strokeDasharray="2 12" opacity="0.4"
-                    />
+                    <text x="286" y="320"
+                      fontFamily="Georgia, serif" fontSize="12.5"
+                      fontWeight="300" letterSpacing="9"
+                      fill="#d97706" opacity="0.8">TAIKO</text>
+                    <circle cx="383" cy="316" r="2" fill="#d97706" opacity="0.55" />
+                    <text x="396" y="320"
+                      fontFamily="Georgia, serif" fontSize="12.5"
+                      fontWeight="300" letterSpacing="9"
+                      fill="#d97706" opacity="0.8">GUZHENG</text>
+
+                    <text x="340" y="340"
+                      textAnchor="middle"
+                      fontFamily="Georgia, serif" fontSize="10.5"
+                      letterSpacing="5"
+                      fill="#b45309" opacity="0.5">絲與魂 · Silk &amp; Spirit</text>
                   </svg>
                 </div>
 
-                {/* 底部融合副標 */}
-                <div className="mt-4 opacity-40 flex flex-col items-center">
+                {/* 底部副標（選用，可搭配原有設計保留或移除） */}
+                <div className="mt-2 opacity-35 flex flex-col items-center">
                   <div className="w-48 h-[0.5px] bg-gradient-to-r from-transparent via-amber-300 to-transparent" />
                   <span className="mt-4 text-[10px] tracking-[1.5em] text-amber-100/60 uppercase font-extralight pl-[1.5em]">
-                    Silk & Spirit
+                    Silk &amp; Spirit
                   </span>
                 </div>
               </div>
-
-
-
 
 
 

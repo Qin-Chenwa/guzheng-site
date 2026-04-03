@@ -61,7 +61,7 @@ const testimonials = [
   },
 ];
 
-const instagramHandle = "你的IG帳號";
+const instagramHandle = "wa6018";
 const instagramPosts = [
   { id: 1, image: `${sitePath}/ig-1.jpg`, alt: "演出現場 1" },
   { id: 2, image: `${sitePath}/ig-2.jpg`, alt: "演出現場 2" },
@@ -431,7 +431,7 @@ export default function HomePage() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.65, duration: 0.6 }}
                 className="text-[10px] tracking-[0.7em] text-amber-400/60 font-serif uppercase mt-5">
-                The Art of Guzheng
+                The Art of Guzheng & Drum
               </motion.p>
               <motion.div
                 initial={{ scaleX: 0 }}

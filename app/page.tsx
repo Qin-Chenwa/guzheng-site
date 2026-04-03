@@ -562,91 +562,10 @@ export default function HomePage() {
 
 
 
-              <div className="relative mb-24 flex flex-col items-center justify-center overflow-visible">
-                {/* 背景光暈 - 增加呼吸感動畫 */}
-                <div className="absolute inset-0 bg-amber-500/5 blur-[180px] rounded-full opacity-30 animate-pulse" />
-
-                <div className="relative z-10 w-full max-w-[850px] h-[350px]">
-                  <svg
-                    viewBox="0 0 680 340"
-                    fill="none"
-                    xmlns="http://w3.org"
-                    className="w-full h-full"
-                  >
-                    <style>
-                      {`
-              @keyframes vibrate {
-                0%, 100% { transform: translateY(0); }
-                50% { transform: translateY(-1px); }
-              }
-              @keyframes ripple {
-                0% { transform: scale(1); opacity: 0.4; }
-                100% { transform: scale(1.4); opacity: 0; }
-              }
-              @keyframes fingerMove {
-                0%, 100% { transform: rotate(0deg); }
-                50% { transform: rotate(-2deg) translateX(-1px); }
-              }
-              .string-anim { animation: vibrate 0.15s ease-in-out infinite; transform-origin: center; }
-              .ripple-anim { animation: ripple 2s infinite; transform-origin: 634px 200px; }
-              .finger-anim { animation: fingerMove 3s ease-in-out infinite; transform-origin: 638px 235px; }
-            `}
-                    </style>
-
-                    <defs>
-                      <linearGradient id="inkGold" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#78350f" stopOpacity="0" />
-                        <stop offset="25%" stopColor="#fbbf24" stopOpacity="0.7" />
-                        <stop offset="50%" stopColor="#fef3c7" stopOpacity="1" />
-                        <stop offset="75%" stopColor="#fbbf24" stopOpacity="0.7" />
-                        <stop offset="100%" stopColor="#78350f" stopOpacity="0" />
-                      </linearGradient>
-                    </defs>
-
-                    {/* ── 左側：太鼓 ──────────────────────────────── */}
-                    <ellipse cx="112" cy="168" rx="74" ry="90" stroke="url(#inkGold)" strokeWidth="0.8" fill="rgba(251,191,36,0.02)" />
-                    <ellipse cx="112" cy="168" rx="50" ry="50" stroke="url(#inkGold)" strokeWidth="1.8" fill="none" />
-                    {[0, 1, 2, 3, 4, 5, 6, 7].map(i => {
-                      const angle = (i * Math.PI * 2) / 8 - Math.PI / 2;
-                      return (
-                        <circle key={i} cx={112 + Math.cos(angle) * 52} cy={168 + Math.sin(angle) * 52} r="2.8" fill="#d97706" opacity="0.85" />
-                      );
-                    })}
-                    <line x1="58" y1="116" x2="90" y2="148" stroke="#92400e" strokeWidth="3.5" strokeLinecap="round" opacity="0.6" />
-                    <line x1="166" y1="116" x2="134" y2="148" stroke="#92400e" strokeWidth="3.5" strokeLinecap="round" opacity="0.6" />
-
-                    {/* ── 中央：琴弦橫貫 ──────────────────────────── */}
-                    <line x1="226" y1="152" x2="568" y2="152" stroke="url(#inkGold)" strokeWidth="1.0" opacity="0.55" className="string-anim" style={{ animationDelay: '0.1s' }} />
-                    <line x1="226" y1="161" x2="568" y2="161" stroke="url(#inkGold)" strokeWidth="0.6" opacity="0.35" className="string-anim" style={{ animationDelay: '0.2s' }} />
-                    <line x1="226" y1="170" x2="568" y2="170" stroke="url(#inkGold)" strokeWidth="0.4" opacity="0.20" className="string-anim" style={{ animationDelay: '0.3s' }} />
-
-                    {/* ── 右側：古箏 ──────────────────────────────── */}
-                    <path d="M530 118 L620 132 L620 242 L530 258" stroke="url(#inkGold)" strokeWidth="1.5" fill="rgba(251,191,36,0.02)" />
-                    {[0, 1, 2, 3, 4, 5, 6].map(i => (
-                      <line key={i} x1="530" y1={134 + i * 16.5} x2="620" y2={142 + i * 14} stroke="#fbbf24" strokeWidth="0.7" opacity={0.75 - i * 0.06} className="string-anim" style={{ animationDelay: `${i * 0.05}s` }} />
-                    ))}
-
-                    {/* ── 女性手指撥弦動畫 ── */}
-                    <g className="finger-anim">
-                      <path d="M614 308 Q634 292 642 268 Q648 250 638 235" stroke="#92400e" strokeWidth="2.2" fill="none" opacity="0.55" />
-                      <path d="M638 235 Q644 216 634 200" stroke="#92400e" strokeWidth="2" fill="none" opacity="0.58" />
-                      <ellipse cx="634" cy="198" rx="4" ry="6" transform="rotate(-18 634 198)" stroke="#d97706" strokeWidth="0.9" fill="none" opacity="0.75" />
-                    </g>
-
-                    {/* 撥弦漣漪動畫 */}
-                    <path d="M634 200 Q618 196 608 202 Q598 208 600 216" stroke="#fbbf24" strokeWidth="0.7" fill="none" strokeDasharray="3 5" className="ripple-anim" />
-
-                    {/* ── 底部文字 ───────────────────────────────── */}
-                    <text x="340" y="320" textAnchor="middle" fontFamily="Georgia, serif" fontSize="12.5" fontWeight="300" letterSpacing="9" fill="#d97706" opacity="0.8">
-                      TAIKO <tspan dx="20" dy="-2">·</tspan> <tspan dx="20">GUZHENG</tspan>
-                    </text>
-                  </svg>
-                </div>
-              </div>
-
-
-
-
+              {/* ── 底部文字 ───────────────────────────────── */}
+              <text x="340" y="320" textAnchor="middle" fontFamily="Georgia, serif" fontSize="12.5" fontWeight="300" letterSpacing="9" fill="#d97706" opacity="0.8">
+                TAIKO <tspan dx="20" dy="-2">·</tspan> <tspan dx="20">GUZHENG</tspan>
+              </text>
 
 
 
